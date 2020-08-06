@@ -7,7 +7,7 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group mb-4">
-                <input id="name" type="text" class="form-input w-full @error('name') invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="email" placeholder={{ __('Nane') }} autofocus>
+                <input id="name" type="text" class="form-input w-full @error('name') invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="email" placeholder={{ __('Name') }} autofocus>
 
                 @error('name')
                     <span class="error-message" role="alert">{{ $message }}</span>
