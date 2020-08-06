@@ -13,7 +13,7 @@
                 </div>
             @endif
             <div class="form-group mb-4">
-                <input id="email" type="email" class="form-input w-full @error('email') invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder={{ _('E-mail') }} autofocus>
+                <input id="email" type="email" class="form-input w-full @error('email') invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder={{ __('E-mail') }} autofocus>
 
                 @error('email')
                     <span class="error-message" role="alert">{{ $message }}</span>

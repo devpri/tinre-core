@@ -7,7 +7,7 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group mb-4">
-                <input id="name" type="text" class="form-input w-full @error('name') invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="email" placeholder={{ _('Nane') }} autofocus>
+                <input id="name" type="text" class="form-input w-full @error('name') invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="email" placeholder={{ __('Nane') }} autofocus>
 
                 @error('name')
                     <span class="error-message" role="alert">{{ $message }}</span>
@@ -15,7 +15,7 @@
             </div>
 
             <div class="form-group mb-4">
-                <input id="email" type="email" class="form-input w-full @error('email') invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder={{ _('E-mail') }} autofocus>
+                <input id="email" type="email" class="form-input w-full @error('email') invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder={{ __('E-mail') }} autofocus>
 
                 @error('email')
                     <span class="error-message" role="alert">{{ $message }}</span>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-group mb-4">
-                <input id="password" type="password" class="form-input w-full @error('password') invalid @enderror" name="password" required autocomplete="password" placeholder={{ _('Password') }} autofocus>
+                <input id="password" type="password" class="form-input w-full @error('password') invalid @enderror" name="password" required autocomplete="password" placeholder={{ __('Password') }} autofocus>
                 @error('password')
                     <span class="error-message" role="alert">{{ $message }}</span>
                 @enderror
