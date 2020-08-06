@@ -27,6 +27,8 @@ return [
         'dashboard'
     ],
 
+    'restricted_domains' => [],
+
     'guest_form' => true,
 
     'guest_form_custom_path' => true,

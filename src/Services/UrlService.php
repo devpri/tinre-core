@@ -12,6 +12,8 @@ class UrlService
 {
     public function create(array $data, User $user = null): Url
     {
+        $this->validateUrl($data['long_url']);
+
         $url = new Url();
         $url->long_url = $data['long_url'];
         $url->user_id = $user ? $user->id : null;
@@ -50,6 +52,15 @@ class UrlService
         if(in_array($path, config('tinre.restricted_paths'))) {
             throw ValidationException::withMessages([
                 'path' => [__('Restricted path.')],
+            ]);
+        }
+    }
+
+    protected function validateUrl($url)
+    {
+        if(in_array(parse_url($url, PHP_URL_HOST), config('tinre.restricted_domains'))) {
+            throw ValidationException::withMessages([
+                'long_url' => [__('Restricted domain.')],
             ]);
         }
     }
