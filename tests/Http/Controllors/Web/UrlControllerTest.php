@@ -210,7 +210,7 @@ class UrlControllerTest extends TestCase
 
         $data = [
             'path' => '1111111',
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
         $this->json('POST', "/web/urls", $data)
@@ -252,7 +252,7 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '11111111',
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
