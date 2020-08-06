@@ -12,4 +12,4 @@ If you discover a security vulnerability, please send an e-mail to [paul@devpri.
 
 ## License
 
-Tinre is open-source software licensed under the [MIT License](https://github.com/devpri/tinre-core/blob/master/LICENSE.MD).
+Tinre is open-source software licensed under the [MIT License](https://github.com/devpri/tinre-core/blob/master/LICENSE.md).
