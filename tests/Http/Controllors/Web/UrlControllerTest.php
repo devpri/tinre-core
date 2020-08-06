@@ -177,17 +177,14 @@ class UrlControllerTest extends TestCase
     public function test_guest_can_create_url()
     {        
         $data = [
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
-        $response = $this->json('POST', "/web/urls", $data);
-        
-        var_dump($response->getContent());
-        
-            //->assertStatus(201)
-            //->assertJson([
-            //    'data' => $data
-            //]);
+        $this->json('POST', "/web/urls", $data)
+            ->assertStatus(201)
+            ->assertJson([
+                'data' => $data
+            ]);
     }
     
     public function test_user_can_create_url_without_path()
@@ -196,7 +193,7 @@ class UrlControllerTest extends TestCase
         $this->actingAs($user);
 
         $data = [
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
         $this->json('POST', "/web/urls", $data)
@@ -233,7 +230,7 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '111123456',
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
@@ -274,7 +271,7 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '11111111',
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
@@ -296,7 +293,7 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '111111111',
-            'long_url' => 'https://site.test'
+            'long_url' => 'https://google.com'
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
