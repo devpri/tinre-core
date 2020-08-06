@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'typography';
+
+//Noty
+@import "node_modules/noty/src/noty.scss";
+@import "node_modules/noty/src/themes/mint.scss";
+
+//Vue datepicker
+@import '~vue2-datepicker/scss/index.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+button {
+    outline: 0;
+}
+
+.btn {
+    @apply font-bold py-3 px-4 rounded border-0 cursor-pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.8;
+    }
+}
+
+.btn-primary {
+    @apply bg-primary text-white;
+
+    &:hover:not(:disabled) {
+        @apply bg-gray-900;
+    }
+}
+
+.btn-secondary {
+    @apply text-center bg-gray-400 text-gray-900;
+
+    &:hover:not(:disabled) {
+        @apply bg-primary text-white;
+    }
+}
+
+
+.btn-danger {
+    @apply text-center bg-red-600 text-white;
+
+    &:hover {
+        @apply bg-primary text-white;
+    }
+}
+
+.btn-md {
+    @apply py-2 px-3;
+}
+
+.btn-sm {
+    @apply font-normal py-1 px-2;
+}
+
+.main-wrap {
+    .content {
+        max-width: 1170px;
+        margin: 60px auto 60px auto;
+    }
+}
+
+.topnav {
+    box-shadow: 0 2px 4px 0 rgba(43, 43, 43, .1);
+}
+
+.sidebar {
+    margin-left: -16rem;
+    transition: margin 400ms;
+    position: absolute;
+    height: 100%;
+
+    &.active {
+        margin-left: 0;
+    }
+}
+
+.sidebar-menu {
+    .item {
+        opacity: 0.6;
+
+        &:hover,
+        &.router-link-exact-active {
+            opacity: 1;
+        }
+    }
+}
+
+.form-group {
+    .form-input {
+        @apply appearance-none border border-gray-300 border-solid rounded py-2 px-3 leading-tight text-gray-900;
+
+        &:focus {
+            @apply outline-none border-gray-300 shadow-outline;
+        }
+
+        &.invalid {
+            @apply border-red-600;
+        }
+    }
+
+    .error-message {
+        @apply block pt-2 text-sm text-red-600;
+    }
+}
+
+.mx-datepicker {
+    width: 100%;
+}
+
+.mx-input {
+    font-size: 1rem;
+    line-height: 1.25;
+    height: auto;
+    @apply appearance-none border border-gray-300 border-solid rounded py-2 px-3 leading-tight text-gray-900;
+
+    &:focus {
+        @apply outline-none shadow-outline;
+    }
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+
+    &.active {
+        display: block;
+    }
+}
+
+.card {
+    @apply bg-white rounded shadow;
+
+    .card-header {
+        @apply p-4 bg-gray-200;
+    }
+}
+
+.list {
+    .list-header {
+        @apply bg-gray-200 p-4;
+    }
+
+    .list-item {
+        @apply border-b p-4;
+
+        &:hover {
+            @apply bg-gray-200;
+        }
+    }
+
+    .list-footer {
+        @apply bg-gray-200 p-4;
+    }
+
+}
+
+.modal {
+    transition: opacity 0.25s ease;
+}
+
+.modal-container {
+    width: 34rem;
+    max-width: 98%;
+}
+
+.v--modal-box {
+    max-width: 90%;
+    margin: 0 auto;
+    left: 0 !important;
+}
+
+.chartjs-render-monitor {
+    max-width: 100%;
+}

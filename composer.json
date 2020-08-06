@@ -1,0 +1,51 @@
+{
+  "name": "devpri/tinre-core",
+  "description": "Open Source URL Shortener",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Paul Prisacaru",
+      "email": "paul@devpri.com"
+    }
+  ],
+  "homepage": "https://github.com/devpri/tinre-core",
+  "keywords": [
+    "url-shortener",
+    "tinre",
+    "devpri",
+    "laravel"
+  ],
+  "require": {
+    "php": "^7.2.5",
+    "geoip2/geoip2": "~2.0",
+    "laravel/framework": "^7.0",
+    "piwik/device-detector": "^3.2",
+    "torann/geoip": "1.2.*",
+    "fideloper/proxy": "^4.2",
+    "fruitcake/laravel-cors": "^1.0",
+    "laravel/tinker": "^2.0"
+  },
+  "require-dev": {
+    "fzaninotto/faker": "^1.9",
+    "mockery/mockery": "^1.1",
+    "phpunit/phpunit": "^8.0",
+    "orchestra/testbench": "^5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Devpri\\Tinre\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Devpri\\Tinre\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Devpri\\Tinre\\TinreServiceProvider"
+      ]
+    }
+  }
+}

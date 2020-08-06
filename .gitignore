@@ -1,0 +1,14 @@
+/node_modules
+/vendor
+/.idea
+/.vscode
+/nbproject
+/.vagrant
+npm-debug.log
+yarn-error.log
+.env
+.env.testing
+.phpunit.result.cache
+.editorconfig
+.DS_Store
+phpunit.xml

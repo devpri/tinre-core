@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Providers;
+
+use Devpri\Tinre\TinreServiceProvider as BaseServiceProvider;
+
+class TinreServiceProvider extends BaseServiceProvider
+{
+}
