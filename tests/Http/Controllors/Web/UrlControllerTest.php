@@ -211,7 +211,7 @@ class UrlControllerTest extends TestCase
         $this->actingAs($user);
 
         $data = [
-            'path' => '111111',
+            'path' => '1111111',
             'long_url' => 'https://site.test'
         ];
 
@@ -231,7 +231,7 @@ class UrlControllerTest extends TestCase
 
         $newData = [
             'active' => 0,
-            'path' => '111',
+            'path' => '111123456',
             'long_url' => 'https://site.test'
         ];
 
@@ -253,7 +253,7 @@ class UrlControllerTest extends TestCase
 
         $newData = [
             'active' => 0,
-            'path' => '111',
+            'path' => '11111111',
             'long_url' => 'https://site.test'
         ];
 
@@ -272,7 +272,7 @@ class UrlControllerTest extends TestCase
 
         $newData = [
             'active' => 0,
-            'path' => '111',
+            'path' => '11111111',
             'long_url' => 'https://site.test'
         ];
 
@@ -294,7 +294,7 @@ class UrlControllerTest extends TestCase
 
         $newData = [
             'active' => 0,
-            'path' => '111',
+            'path' => '111111111',
             'long_url' => 'https://site.test'
         ];
 

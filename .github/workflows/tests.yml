@@ -1,4 +1,4 @@
-name: run-tests
+name: tests
 
 on: [push, pull_request]
 
@@ -9,7 +9,7 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                php: [7.2, 7.3, 7.4]
+                php: [7.3, 7.4]
 
         name: P${{ matrix.php }}
 

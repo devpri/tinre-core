@@ -91,7 +91,7 @@ class UrlController extends Controller
         $validatedData = $request->validate([
             'active' => ['required', 'boolean'],
             'long_url' => ['required', 'url', 'active_url'],
-            'path' => ['required', "unique:urls,path,{$id},id", 'max:255'],
+            'path' => ['required', "unique:urls,path,{$id},id", "min:" . config('tinre.min_path_length'), "max:" . config('tinre.max_path_length')],
         ]);
 
         $user = $request->user();
