@@ -22,7 +22,7 @@
           </div>
           <div v-if="customPath" class="form-group mb-4">
             <div class="flex flex-wrap bg-gray-200 items-center">
-              <div class="w-full md:w-1/2 px-4">{{ appUrl }}</div>
+              <div class="w-full md:w-1/2 px-4 py-2">{{ appUrl }}</div>
               <div class="w-full md:w-1/2">
                 <input
                   type="text"

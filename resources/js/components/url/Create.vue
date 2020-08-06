@@ -24,7 +24,7 @@
         </div>
         <div class="form-group mb-4">
           <div class="flex flex-wrap bg-gray-200 items-center">
-            <div class="w-full md:w-1/2 px-4">{{ $config.app_url }}</div>
+            <div class="w-full md:w-1/2 px-4 py-2">{{ $config.app_url }}</div>
             <div class="w-full md:w-1/2">
               <input
                 type="text"
