@@ -1,0 +1,38 @@
+name: run-tests
+
+on: [push, pull_request]
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: true
+            matrix:
+                php: [7.2, 7.3, 7.4]
+
+        name: P${{ matrix.php }}
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
+
+            -   name: Install SQLite 3
+                run: |
+                    sudo apt-get update
+                    sudo apt-get install sqlite3
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    extensions: curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, iconv
+                    tools: composer:v2
+                    coverage: none
+
+            -   name: Install dependencies
+                run: |
+                    composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+                    
+            -   name: Execute tests
+                run: vendor/bin/phpunit
