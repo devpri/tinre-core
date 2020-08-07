@@ -50,29 +50,31 @@ class ProcessClick implements ShouldQueue
         $device->discardBotInformation();
         $device->parse();
 
-        if (!$device->isBot()) {
-            $osInfo = $device->getOs() ?? null;
-            $client = $device->getClient() ?? null;
-            $location = geoip()->getLocation($this->ip);
-            
-            Click::create([
-                'url_id' => $this->url->id,
-                'country' => $location->getAttribute('iso_code') ?? null,
-                'region' => $location->getAttribute('state_name') ?? null,
-                'city' => $location->getAttribute('city') ?? null,
-                'device_type' => $device->getDeviceName() ? $device->getDeviceName() : null,
-                'device_brand' => $device->getBrandName() ? $device->getBrandName() : null,
-                'device_model' => $device->getModel() ? $device->getModel() : null,
-                'user_agent' => $this->userAgent,
-                'os' => $osInfo['short_name'] ?? null,
-                'browser' => $client['name'] ?? null,
-                'referer' => $this->referer,
-                'referer_host' => parse_url($this->referer, PHP_URL_HOST),
-                'created_at' => $this->createdAt
-            ]);
-
-            $this->url->timestamps = false;
-            $this->url->increment('total_clicks');
+        if ($device->isBot()) {
+            return;
         }
+
+        $osInfo = $device->getOs() ?? null;
+        $client = $device->getClient() ?? null;
+        $location = geoip()->getLocation($this->ip);
+            
+        Click::create([
+            'url_id' => $this->url->id,
+            'country' => $location->getAttribute('iso_code') ?? null,
+            'region' => $location->getAttribute('state_name') ?? null,
+            'city' => $location->getAttribute('city') ?? null,
+            'device_type' => $device->getDeviceName() ? $device->getDeviceName() : null,
+            'device_brand' => $device->getBrandName() ? $device->getBrandName() : null,
+            'device_model' => $device->getModel() ? $device->getModel() : null,
+            'user_agent' => $this->userAgent,
+            'os' => $osInfo['short_name'] ?? null,
+            'browser' => $client['name'] ?? null,
+            'referer' => $this->referer,
+            'referer_host' => parse_url($this->referer, PHP_URL_HOST),
+            'created_at' => $this->createdAt
+        ]);
+
+        $this->url->timestamps = false;
+        $this->url->increment('total_clicks');
     }
 }
