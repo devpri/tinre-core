@@ -10,7 +10,7 @@ $factory->define(Devpri\Tinre\Models\Url::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(Devpri\Tinre\Models\Url::class, 'disabled', function ($faker) {
+$factory->state(Devpri\Tinre\Models\Url::class, 'disabled', function () {
     return [
         'active' => 0,
     ];
