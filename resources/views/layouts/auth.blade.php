@@ -13,7 +13,7 @@
 <body class="bg-primary">
     <section class="flex flex-wrap items-stretch  min-h-screen">
         <div class="w-full self-end">
-            <div class="container mx-auto px-2">
+            <div class="container mx-auto px-4">
                 <div class="text-center mb-6">
                     @include('tinre::partials.logo')
                 </div>
