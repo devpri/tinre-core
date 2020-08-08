@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Tinre') }}</title>
+    <title>@if(View::hasSection('title'))@yield('title')@else{{ config('app.name', 'Tinre') }}@endif</title>
+    <meta name="description" content="@yield('meta_description')">
     <!-- Styles -->
     <link href="{{ asset(mix('app.css', 'vendor/tinre')) }}" rel="stylesheet">
 </head>
