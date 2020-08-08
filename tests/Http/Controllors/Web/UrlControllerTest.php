@@ -38,10 +38,8 @@ class UrlControllerTest extends TestCase
         $this->json('GET', '/web/urls', [
             'search' => 'test10001',
         ])->assertStatus(200)
-            ->assertJson([
-                'data' => [[
-                    'path' => 'test10001',
-                ]],
+            ->assertJsonFragment([
+                'path' => 'test10001',
             ]);
     }
 
@@ -56,10 +54,8 @@ class UrlControllerTest extends TestCase
         $this->json('GET', '/web/urls', [
             'date' => [Carbon::today()->subDays(2), Carbon::today()->addDays(2)],
         ])->assertStatus(200)
-            ->assertJson([
-                'data' => [[
-                    'path' => 'test10001',
-                ]],
+            ->assertJsonFragment([
+                'path' => 'test10001',
             ]);
     }
 
