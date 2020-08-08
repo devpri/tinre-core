@@ -7,7 +7,6 @@ use Devpri\Tinre\Tests\TestCase;
 
 class RedirectControllerTest extends TestCase
 {
-
     public function test_is_redirected_to_home()
     {
         $this->get('wrong-url')

@@ -91,14 +91,14 @@ class Tinre
         if ($session->has('status')) {
             $messages[] = [
                 'type' => 'success',
-                'text' => $session->get('status')
+                'text' => $session->get('status'),
             ];
         }
 
         if ($session->has('warning')) {
             $messages[] = [
                 'type' => 'warning',
-                'text' => $session->get('warning')
+                'text' => $session->get('warning'),
             ];
         }
 

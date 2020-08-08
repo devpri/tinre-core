@@ -43,7 +43,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-
     /**
      * Show the application's login form.
      *
@@ -164,13 +163,13 @@ class LoginController extends Controller
 
         $user = $this->guard()->user();
 
-        if (!$user->active) {
+        if (! $user->active) {
             $this->guard()->logout();
             throw ValidationException::withMessages([
                 'email' => [trans('Your account has beem disabled.')],
             ]);
         }
-                
+
         return $request->wantsJson()
             ? new Response('', 204)
             : redirect($this->redirectTo());

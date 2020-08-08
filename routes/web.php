@@ -17,7 +17,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('urls/{id}', 'UrlController@delete');
 
     Route::get('stats/{id}/clicks', 'StatsController@clicks');
-    Route::get('stats/{id}/{column}', 'StatsController@data');    
+    Route::get('stats/{id}/{column}', 'StatsController@data');
 });
 
 Route::post('urls', 'UrlController@create')->middleware(config('tinre.guest_form') ? [] : ['auth']);

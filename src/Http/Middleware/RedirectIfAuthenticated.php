@@ -2,7 +2,6 @@
 
 namespace Devpri\Tinre\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 

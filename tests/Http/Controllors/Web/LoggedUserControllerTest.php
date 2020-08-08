@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class LoggedUserControllerTest extends TestCase
 {
-
     public function test_cant_get_user()
     {
         $this->json('GET', '/web/users/me')
@@ -27,7 +26,7 @@ class LoggedUserControllerTest extends TestCase
                     'name' => $user->name,
                     'email' => $user->email,
                     'role' => $user->role,
-                ]
+                ],
             ]);
     }
 
@@ -44,7 +43,7 @@ class LoggedUserControllerTest extends TestCase
             ->assertJson([
                 'data' => [
                     'name' => 'New Name',
-                ]
+                ],
             ]);
 
         $updatedUser = User::where('id', $user->id)->first();

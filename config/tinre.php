@@ -24,7 +24,7 @@ return [
     'restricted_paths' => [
         'api',
         'web',
-        'dashboard'
+        'dashboard',
     ],
 
     'restricted_domains' => [],

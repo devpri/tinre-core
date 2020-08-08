@@ -9,14 +9,13 @@ use Devpri\Tinre\Tests\TestCase;
 
 class StatsControllerTest extends TestCase
 {
-
     public function test_user_can_get_clicks()
     {
         $user = factory(User::class)->states('user')->create();
         $this->actingAs($user);
 
         $url = factory(Url::class)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->get($url->path)
@@ -24,7 +23,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -37,7 +36,7 @@ class StatsControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create([
-            'user_id' => $secondUser->id
+            'user_id' => $secondUser->id,
         ]);
 
         $this->get($url->path)
@@ -45,7 +44,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(401);
     }
 
@@ -57,7 +56,7 @@ class StatsControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create([
-            'user_id' => $secondUser->id
+            'user_id' => $secondUser->id,
         ]);
 
         $this->get($url->path)
@@ -65,7 +64,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -78,7 +77,7 @@ class StatsControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create([
-            'user_id' => $secondUser->id
+            'user_id' => $secondUser->id,
         ]);
 
         $this->get($url->path)
@@ -86,7 +85,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -97,7 +96,7 @@ class StatsControllerTest extends TestCase
         $this->actingAs($user);
 
         $url = factory(Url::class)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->get($url->path)
@@ -105,7 +104,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -118,7 +117,7 @@ class StatsControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create([
-            'user_id' => $secondUser->id
+            'user_id' => $secondUser->id,
         ]);
 
         $this->get($url->path)
@@ -126,7 +125,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(401);
     }
 
@@ -138,7 +137,7 @@ class StatsControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create([
-            'user_id' => $secondUser->id
+            'user_id' => $secondUser->id,
         ]);
 
         $this->get($url->path)
@@ -146,7 +145,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -159,7 +158,7 @@ class StatsControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create([
-            'user_id' => $secondUser->id
+            'user_id' => $secondUser->id,
         ]);
 
         $this->get($url->path)
@@ -167,7 +166,7 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -178,11 +177,11 @@ class StatsControllerTest extends TestCase
         $this->actingAs($user);
 
         $url = factory(Url::class)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->json('GET', "/web/stats/{$url->id}/test", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()]
+            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
         ])->assertStatus(422);
     }
 }

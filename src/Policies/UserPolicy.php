@@ -12,7 +12,6 @@ class UserPolicy
 
     public function viewAny(User $user): bool
     {
-        
         if (in_array($user->role, ['administrator'])) {
             return true;
         }
@@ -34,7 +33,7 @@ class UserPolicy
         if (in_array($user->role, ['administrator'])) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -43,7 +42,7 @@ class UserPolicy
         if ($user->id === $userModel->id) {
             return false;
         }
-        
+
         if (in_array($user->role, ['administrator'])) {
             return true;
         }
@@ -62,19 +61,19 @@ class UserPolicy
 
     public function changeEmail(User $user): bool
     {
-        if(Route::has('email.change')) {
+        if (Route::has('email.change')) {
             return true;
         }
 
         return false;
     }
-    
+
     public function delete(User $user, User $userModel): bool
     {
         if ($user->id === $userModel->id) {
             return false;
         }
-        
+
         if (in_array($user->role, ['administrator'])) {
             return true;
         }

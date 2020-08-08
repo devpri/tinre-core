@@ -57,7 +57,7 @@ class ProcessClick implements ShouldQueue
         $osInfo = $device->getOs() ?? null;
         $client = $device->getClient() ?? null;
         $location = geoip()->getLocation($this->ip);
-            
+
         Click::create([
             'url_id' => $this->url->id,
             'country' => $location->getAttribute('iso_code') ?? null,
@@ -71,7 +71,7 @@ class ProcessClick implements ShouldQueue
             'browser' => $client['name'] ?? null,
             'referer' => $this->referer,
             'referer_host' => parse_url($this->referer, PHP_URL_HOST),
-            'created_at' => $this->createdAt
+            'created_at' => $this->createdAt,
         ]);
 
         $this->url->timestamps = false;

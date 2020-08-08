@@ -39,7 +39,6 @@ class ResetPasswordController extends Controller
         );
     }
 
-
     /**
      * Reset the given user's password.
      *

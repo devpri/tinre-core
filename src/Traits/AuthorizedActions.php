@@ -11,8 +11,8 @@ trait AuthorizedActions
         $authorizedActions = [];
 
         $user = Auth::user();
-        
-        if (!$user) {
+
+        if (! $user) {
             return $authorizedActions;
         }
 
@@ -21,7 +21,7 @@ trait AuthorizedActions
                 $authorizedActions[] = $action;
             }
         }
-        
+
         return $authorizedActions;
     }
 }

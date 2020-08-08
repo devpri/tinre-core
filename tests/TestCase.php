@@ -3,20 +3,18 @@
 namespace Devpri\Tinre\Tests;
 
 use Devpri\Tinre\TinreServiceProvider;
-use Dotenv\Dotenv;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Torann\GeoIP\GeoIPServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
-
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->withFactories(__DIR__ . '/../database/factories');
+        $this->withFactories(__DIR__.'/../database/factories');
 
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
@@ -57,7 +55,6 @@ abstract class TestCase extends Orchestra
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-
         $app->singleton('Illuminate\Contracts\Console\Kernel', 'Devpri\Tinre\Tests\Console\Kernel');
     }
 

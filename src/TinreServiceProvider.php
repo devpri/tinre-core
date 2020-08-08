@@ -3,7 +3,6 @@
 namespace Devpri\Tinre;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class TinreServiceProvider extends ServiceProvider
@@ -29,13 +28,13 @@ class TinreServiceProvider extends ServiceProvider
 
         $this->registerPolicies();
 
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'tinre');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'tinre');
 
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/tinre'));
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'tinre');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'tinre');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->registerConfigVariables();
 
@@ -53,11 +52,11 @@ class TinreServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {        
-        $this->mergeConfigFrom(__DIR__ . '/../config/tinre.php', 'tinre');
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/tinre.php', 'tinre');
 
         Tinre::addTranslation(
-            resource_path('lang/vendor/tinre/' . app()->getLocale() . '.json')
+            resource_path('lang/vendor/tinre/'.app()->getLocale().'.json')
         );
     }
 
@@ -96,6 +95,7 @@ class TinreServiceProvider extends ServiceProvider
             \Devpri\Tinre\Listeners\SendEmailVerificationNotification::class
         );
     }
+
     /**
      * Get the services provided by the provider.
      *
@@ -115,37 +115,37 @@ class TinreServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__ . '/../config/tinre.php' => config_path('tinre.php'),
+            __DIR__.'/../config/tinre.php' => config_path('tinre.php'),
         ], 'tinre-config');
 
         $this->publishes([
-            __DIR__ . '/../stubs/TinreServiceProvider.stub' => app_path('Providers/TinreServiceProvider.php'),
+            __DIR__.'/../stubs/TinreServiceProvider.stub' => app_path('Providers/TinreServiceProvider.php'),
         ], 'tinre-provider');
 
         // Publishing the views.
         $this->publishes([
-            __DIR__ . '/../resources/views/partials' => base_path('resources/views/vendor/tinre/partials'),
+            __DIR__.'/../resources/views/partials' => base_path('resources/views/vendor/tinre/partials'),
         ], 'tinre-views');
 
         // Publishing assets.
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/tinre'),
+            __DIR__.'/../public' => public_path('vendor/tinre'),
         ], 'tinre-assets');
 
         // Publishing the translation files.
         $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/tinre'),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/tinre'),
         ], 'tinre-lang');
     }
 
     protected function registerConfigVariables()
     {
         Tinre::addToConfig([
-            'app_url' => rtrim(config('app.url', null), '/') . '/',
+            'app_url' => rtrim(config('app.url', null), '/').'/',
             'dashboard_path' => Tinre::dashboardPath(),
             'timezone' => config('app.timezone', 'UTC'),
             'date_format' => config('tinre.date_format', 'MM/DD/YYYY, h:mm:ss a'),
-            'roles' => config('tinre.roles', [])
+            'roles' => config('tinre.roles', []),
         ]);
     }
 }

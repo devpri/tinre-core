@@ -2,7 +2,6 @@
 
 namespace Devpri\Tinre\Http\Controllers\Web;
 
-use Auth;
 use Devpri\Tinre\Http\Controllers\Controller;
 use Devpri\Tinre\Http\Resources\Web\Url as UrlResource;
 use Devpri\Tinre\Models\Url;
@@ -72,11 +71,11 @@ class UrlController extends Controller
         if ($user && $user->cant('create', Url::class)) {
             abort(401);
         }
-        
+
         $validationRules = ['long_url' => ['required', 'url', 'active_url']];
 
-        if($user || config('tinre.guest_form_custom_path')) {
-            $validationRules['path'] = ['nullable', 'alpha_dash', 'unique:urls', "min:" . config('tinre.min_path_length'), "max:" . config('tinre.max_path_length')];
+        if ($user || config('tinre.guest_form_custom_path')) {
+            $validationRules['path'] = ['nullable', 'alpha_dash', 'unique:urls', 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')];
         }
 
         $validatedData = $request->validate($validationRules);
@@ -91,7 +90,7 @@ class UrlController extends Controller
         $validatedData = $request->validate([
             'active' => ['required', 'boolean'],
             'long_url' => ['required', 'url', 'active_url'],
-            'path' => ['required', "unique:urls,path,{$id},id", "min:" . config('tinre.min_path_length'), "max:" . config('tinre.max_path_length')],
+            'path' => ['required', "unique:urls,path,{$id},id", 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')],
         ]);
 
         $user = $request->user();

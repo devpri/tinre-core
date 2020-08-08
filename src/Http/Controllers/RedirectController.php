@@ -3,7 +3,6 @@
 namespace Devpri\Tinre\Http\Controllers;
 
 use Carbon\Carbon;
-use Devpri\Tinre\Http\Controllers\Controller;
 use Devpri\Tinre\Jobs\ProcessClick;
 use Devpri\Tinre\Models\Url;
 use Illuminate\Http\Request;
@@ -14,7 +13,7 @@ class RedirectController extends Controller
     {
         $url = Url::where(['path' => $path, 'active' => 1])->first();
 
-        if (!$url) {
+        if (! $url) {
             return redirect('/');
         }
 

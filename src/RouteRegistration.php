@@ -15,14 +15,14 @@ class RouteRegistration
         Route::middleware('web')
             ->namespace('Devpri\Tinre\Http\Controllers\Web')
             ->prefix('/web')
-            ->group(__DIR__ . '/../routes/web.php');
+            ->group(__DIR__.'/../routes/web.php');
 
         Route::middleware(['web', 'auth'])
             ->prefix(Tinre::dashboardPath())
             ->get('{view?}', 'Devpri\Tinre\Http\Controllers\DashboardController@show')
             ->where('view', '.*')
             ->name('dashboard');
-            
+
         Route::get('{path}', 'Devpri\Tinre\Http\Controllers\RedirectController@redirect')->name('url');
     }
 
@@ -109,7 +109,7 @@ class RouteRegistration
 
     public function __destruct()
     {
-        if (!$this->registered) {
+        if (! $this->registered) {
             $this->register();
         }
     }
