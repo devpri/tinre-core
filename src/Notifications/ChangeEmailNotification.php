@@ -58,7 +58,7 @@ class ChangeEmailNotification extends Notification
         return (new MailMessage)
             ->subject('Change your email')
             ->line('You are receiving this email because we received a email change request for your account.')
-            ->action('Change Email', url(config('app.url') . route('email.change', $this->token, false)));
+            ->action('Change Email', url(config('app.url').route('email.change', $this->token, false)));
     }
 
     /**

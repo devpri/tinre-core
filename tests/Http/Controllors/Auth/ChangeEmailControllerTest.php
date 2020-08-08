@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Notification;
 
 class ChangeEmailControllerTest extends TestCase
 {
-
     public function test_can_change_email()
     {
         Notification::fake();

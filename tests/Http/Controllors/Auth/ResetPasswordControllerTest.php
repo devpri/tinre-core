@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Notification;
 
 class ResetPasswordControllerTest extends TestCase
 {
-
     public function test_can_access_reset_page()
     {
         $this->get('dashboard/password/reset')

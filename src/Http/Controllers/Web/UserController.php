@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = $request->user();
@@ -60,7 +59,7 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'active' => ['required', 'boolean'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', "unique:users"],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'role' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8'],
         ]);

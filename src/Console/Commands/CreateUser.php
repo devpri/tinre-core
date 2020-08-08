@@ -62,15 +62,16 @@ class CreateUser extends Command
 
         if ($validator->fails()) {
             $this->info('User not created!');
-        
+
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return 1;
         }
 
         $data = $validator->valid();
-        
+
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -78,6 +79,6 @@ class CreateUser extends Command
             'password' => Hash::make($data['password']),
         ]);
 
-        $this->info("User created!");
+        $this->info('User created!');
     }
 }

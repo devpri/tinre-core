@@ -50,7 +50,7 @@ class StatsService
         if ($diff > 90) {
             $dateFormat = '%Y-%m';
         }
-        
+
         if ($diff > 1092) {
             $dateFormat = '%Y';
         }

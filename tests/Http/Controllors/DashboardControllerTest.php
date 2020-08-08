@@ -7,7 +7,6 @@ use Devpri\Tinre\Tests\TestCase;
 
 class DashboardControllerTest extends TestCase
 {
-
     public function test_is_redirected_to_login_page()
     {
         $this->get('dashboard')

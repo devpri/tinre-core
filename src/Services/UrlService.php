@@ -21,7 +21,7 @@ class UrlService
         if (isset($data['path'])) {
             $url->path = $data['path'];
 
-            $this->validatePath($url->path );
+            $this->validatePath($url->path);
 
             $url->save();
 
@@ -33,9 +33,9 @@ class UrlService
         while ($maxGenerationAttempts-- > 0) {
             try {
                 $url->path = Str::random(config('tinre.default_path_length'));
-                
-                $this->validatePath($url->path );
-                
+
+                $this->validatePath($url->path);
+
                 $url->save();
 
                 return $url;
@@ -49,7 +49,7 @@ class UrlService
 
     protected function validatePath($path)
     {
-        if(in_array($path, config('tinre.restricted_paths'))) {
+        if (in_array($path, config('tinre.restricted_paths'))) {
             throw ValidationException::withMessages([
                 'path' => [__('Restricted path.')],
             ]);
@@ -58,7 +58,7 @@ class UrlService
 
     protected function validateUrl($url)
     {
-        if(in_array(parse_url($url, PHP_URL_HOST), config('tinre.restricted_domains'))) {
+        if (in_array(parse_url($url, PHP_URL_HOST), config('tinre.restricted_domains'))) {
             throw ValidationException::withMessages([
                 'long_url' => [__('Restricted domain.')],
             ]);

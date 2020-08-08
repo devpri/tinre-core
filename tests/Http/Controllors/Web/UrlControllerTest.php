@@ -9,7 +9,6 @@ use Devpri\Tinre\Tests\TestCase;
 
 class UrlControllerTest extends TestCase
 {
-
     public function test_cant_get_url()
     {
         $this->json('GET', '/web/urls')
@@ -37,12 +36,12 @@ class UrlControllerTest extends TestCase
         factory(Url::class, 5)->create(['user_id' => $user->id]);
 
         $this->json('GET', '/web/urls', [
-            'search' => 'test10001'
+            'search' => 'test10001',
         ])->assertStatus(200)
             ->assertJson([
                 'data' => [[
-                    'path' => 'test10001'
-                ]]
+                    'path' => 'test10001',
+                ]],
             ]);
     }
 
@@ -55,12 +54,12 @@ class UrlControllerTest extends TestCase
         factory(Url::class, 5)->create(['user_id' => $user->id]);
 
         $this->json('GET', '/web/urls', [
-            'date' => [Carbon::today()->subDays(2), Carbon::today()->addDays(2)]
+            'date' => [Carbon::today()->subDays(2), Carbon::today()->addDays(2)],
         ])->assertStatus(200)
             ->assertJson([
                 'data' => [[
-                    'path' => 'test10001'
-                ]]
+                    'path' => 'test10001',
+                ]],
             ]);
     }
 
@@ -120,8 +119,8 @@ class UrlControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'path' => $url->path
-                ]
+                    'path' => $url->path,
+                ],
             ]);
     }
 
@@ -151,8 +150,8 @@ class UrlControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'path' => $url->path
-                ]
+                    'path' => $url->path,
+                ],
             ]);
     }
 
@@ -169,37 +168,37 @@ class UrlControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'path' => $url->path
-                ]
+                    'path' => $url->path,
+                ],
             ]);
     }
 
     public function test_guest_can_create_url()
-    {        
+    {
         $data = [
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
-        $this->json('POST', "/web/urls", $data)
+        $this->json('POST', '/web/urls', $data)
             ->assertStatus(201)
             ->assertJson([
-                'data' => $data
+                'data' => $data,
             ]);
     }
-    
+
     public function test_user_can_create_url_without_path()
     {
         $user = factory(User::class)->states('user')->create();
         $this->actingAs($user);
 
         $data = [
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
-        $this->json('POST', "/web/urls", $data)
+        $this->json('POST', '/web/urls', $data)
             ->assertStatus(201)
             ->assertJson([
-                'data' => $data
+                'data' => $data,
             ]);
     }
 
@@ -210,13 +209,13 @@ class UrlControllerTest extends TestCase
 
         $data = [
             'path' => '1111111',
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
-        $this->json('POST', "/web/urls", $data)
+        $this->json('POST', '/web/urls', $data)
             ->assertStatus(201)
             ->assertJson([
-                'data' => $data
+                'data' => $data,
             ]);
     }
 
@@ -230,13 +229,13 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '111123456',
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
             ->assertStatus(200)
             ->assertJson([
-                'data' => $newData
+                'data' => $newData,
             ]);
     }
 
@@ -252,7 +251,7 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '11111111',
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
@@ -271,13 +270,13 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '11111111',
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
             ->assertStatus(200)
             ->assertJson([
-                'data' => $newData
+                'data' => $newData,
             ]);
     }
 
@@ -293,13 +292,13 @@ class UrlControllerTest extends TestCase
         $newData = [
             'active' => 0,
             'path' => '111111111',
-            'long_url' => 'https://google.com'
+            'long_url' => 'https://google.com',
         ];
 
         $this->json('POST', "/web/urls/{$url->id}", $newData)
             ->assertStatus(200)
             ->assertJson([
-                'data' => $newData
+                'data' => $newData,
             ]);
     }
 

@@ -24,14 +24,14 @@ class LoggedUserController extends Controller
         if ($user->cant('updateOwn', $user)) {
             abort(401);
         }
-        
+
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'current_password' => ['nullable', 'required_with:new_password'],
             'new_password' => ['nullable', 'required_with:current_password', 'min:6'],
         ]);
 
-        if ($validatedData['new_password'] && !Hash::check($validatedData['current_password'], $user->password)) {
+        if ($validatedData['new_password'] && ! Hash::check($validatedData['current_password'], $user->password)) {
             throw ValidationException::withMessages([
                 'current_password' => [trans('The current password is invalid.')],
             ]);

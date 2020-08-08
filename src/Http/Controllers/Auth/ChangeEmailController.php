@@ -41,7 +41,7 @@ class ChangeEmailController extends Controller
 
         $user = $request->user();
 
-        if (!Hash::check($request->password, $user->password)) {
+        if (! Hash::check($request->password, $user->password)) {
             return response()->json(['message' => __('Invalid Password')], 403);
         }
 
@@ -52,7 +52,7 @@ class ChangeEmailController extends Controller
                 $data = [
                     'email' => $request->email,
                     'token' => Str::random(60),
-                    'created_at' => Carbon::now()
+                    'created_at' => Carbon::now(),
                 ];
 
                 DB::table('email_changes')->updateOrInsert(['user_id' => $user->id], $data);
@@ -62,7 +62,7 @@ class ChangeEmailController extends Controller
                 }
             }
         }
-        
+
         event(new EmailChangeCreated($data));
 
         return response()->json(['message' => __('Please verify your email.')]);
@@ -72,13 +72,13 @@ class ChangeEmailController extends Controller
     {
         $email = DB::table('email_changes')->where('token', $token)->first();
 
-        if (!$email) {
+        if (! $email) {
             abort(404);
         }
 
         DB::table('users')->where('id', $email->user_id)->update([
             'email' => $email->email,
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => Carbon::now(),
         ]);
 
         DB::table('email_changes')->where('token', $token)->delete();
@@ -90,7 +90,7 @@ class ChangeEmailController extends Controller
     {
         $request->validate([
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required']
+            'password' => ['required'],
         ]);
     }
 }

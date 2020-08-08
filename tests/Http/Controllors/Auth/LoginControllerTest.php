@@ -7,7 +7,6 @@ use Devpri\Tinre\Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
-
     public function test_can_access_login_page()
     {
         $this->get('/dashboard/login')

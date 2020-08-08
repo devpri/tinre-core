@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserControllerTest extends TestCase
 {
-
     public function test_guest_cant_get_users()
     {
         $this->json('GET', '/web/users')
@@ -61,8 +60,8 @@ class UserControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'email' => $user->email
-                ]
+                    'email' => $user->email,
+                ],
             ]);
     }
 
@@ -115,12 +114,12 @@ class UserControllerTest extends TestCase
             'name' => $secondUser->name,
             'role' => $secondUser->role,
             'email' => 'test@test.com',
-            'password' => 'newpassword'
+            'password' => 'newpassword',
         ])->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'email' => 'test@test.com'
-                ]
+                    'email' => 'test@test.com',
+                ],
             ]);
 
         $updatedUser = User::where('id', $secondUser->id)->firstOrFail();

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Notification;
 
 class RegisterControllerTest extends TestCase
 {
-
     public function test_can_access_register_page()
     {
         $this->get('/dashboard/register')

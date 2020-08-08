@@ -16,24 +16,24 @@ $factory->define(Devpri\Tinre\Models\User::class, function (Faker $faker) {
 
 $factory->state(Devpri\Tinre\Models\User::class, 'disabled', function () {
     return [
-        'active' => 0
+        'active' => 0,
     ];
 });
 
 $factory->state(Devpri\Tinre\Models\User::class, 'user', function () {
     return [
-        'role' => 'user'
+        'role' => 'user',
     ];
 });
 
 $factory->state(Devpri\Tinre\Models\User::class, 'editor', function () {
     return [
-        'role' => 'editor'
+        'role' => 'editor',
     ];
 });
 
 $factory->state(Devpri\Tinre\Models\User::class, 'administrator', function () {
     return [
-        'role' => 'administrator'
+        'role' => 'administrator',
     ];
 });
