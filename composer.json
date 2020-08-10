@@ -1,6 +1,6 @@
 {
   "name": "devpri/tinre-core",
-  "description": "Open Source URL Shortener",
+  "description": "A fast and powerful URL Shortener.",
   "license": "MIT",
   "authors": [
     {
@@ -11,9 +11,10 @@
   "homepage": "https://github.com/devpri/tinre-core",
   "keywords": [
     "url-shortener",
-    "tinre",
+    "url",
+    "laravel",
     "devpri",
-    "laravel"
+    "tinre"
   ],
   "require": {
     "php": "^7.3",
