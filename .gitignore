@@ -12,3 +12,4 @@ yarn-error.log
 .editorconfig
 .DS_Store
 phpunit.xml
+composer.lock
