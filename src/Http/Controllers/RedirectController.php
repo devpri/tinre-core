@@ -24,6 +24,6 @@ class RedirectController extends Controller
 
         ProcessClick::dispatch($url, $createdAt, $ip, $userAgent, $referer);
 
-        return redirect($url->long_url, config('tinre.redirect_type', config('tinre.redirect_type', 302)));
+        return redirect($url->long_url, config('tinre.redirect_type', 302));
     }
 }
