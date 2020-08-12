@@ -5,6 +5,7 @@ namespace Devpri\Tinre\Services;
 use Devpri\Tinre\Models\Url;
 use Devpri\Tinre\Models\User;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -32,7 +33,7 @@ class UrlService
 
         while ($maxGenerationAttempts-- > 0) {
             try {
-                $url->path = Str::random(config('tinre.default_path_length'));
+                $url->path = strtolower(Str::random(config('tinre.default_path_length')));
 
                 $this->validatePath($url->path);
 
@@ -49,6 +50,16 @@ class UrlService
 
     protected function validatePath($path)
     {
+        $path = strtolower($path);
+        
+        $url = DB::table('urls')->whereRaw('lower(path) like (?)',["%{$path}%"])->count();
+        
+        if($url) {
+            throw ValidationException::withMessages([
+                'path' => [__('The path has already been taken.')],
+            ]);
+        }
+        
         if (in_array($path, config('tinre.restricted_paths'))) {
             throw ValidationException::withMessages([
                 'path' => [__('Restricted path.')],
@@ -57,7 +68,7 @@ class UrlService
     }
 
     protected function validateUrl($url)
-    {
+    {        
         if (in_array(parse_url($url, PHP_URL_HOST), config('tinre.restricted_domains'))) {
             throw ValidationException::withMessages([
                 'long_url' => [__('Restricted domain.')],

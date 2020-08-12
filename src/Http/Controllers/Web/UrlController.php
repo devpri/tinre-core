@@ -75,7 +75,7 @@ class UrlController extends Controller
         $validationRules = ['long_url' => ['required', 'url', 'active_url']];
 
         if ($user || config('tinre.guest_form_custom_path')) {
-            $validationRules['path'] = ['nullable', 'alpha_dash', 'unique:urls', 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')];
+            $validationRules['path'] = ['nullable', 'alpha_dash', 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')];
         }
 
         $validatedData = $request->validate($validationRules);

@@ -11,7 +11,9 @@ class RedirectController extends Controller
 {
     public function redirect(Request $request, $path)
     {
-        $url = Url::where(['path' => $path, 'active' => 1])->first();
+        $path = strtolower($request->path);
+
+        $url = Url::whereRaw('lower(path) like (?)',["%{$path}%"])->where(['active' => 1])->first();
 
         if (! $url) {
             return redirect('/');
