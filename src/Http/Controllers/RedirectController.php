@@ -13,7 +13,7 @@ class RedirectController extends Controller
     {
         $path = strtolower($request->path);
 
-        $url = Url::whereRaw('lower(path) like (?)', ["%{$path}%"])->where(['active' => 1])->first();
+        $url = Url::whereRaw('lower(path) = (?)', [$path])->where(['active' => 1])->first();
 
         if (! $url) {
             return redirect('/');
