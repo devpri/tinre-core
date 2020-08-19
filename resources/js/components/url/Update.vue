@@ -23,7 +23,7 @@
             class="form-input w-full"
             :class="valid_url ? 'valid' : 'invalid'"
             name="long_url"
-            placeholder="URL"
+            :placeholder="__('URL')"
             v-model="long_url"
           />
           <span class="error-message" v-if="!valid_url" role="alert">{{

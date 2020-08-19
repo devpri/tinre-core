@@ -13,7 +13,7 @@
             <span
               class="py-1 px-2 rounded border-0 bg-white"
               :class="url.active ? 'bg-white' : 'bg-red-200'"
-              >{{ url.active ? 'Active' : 'Disabled' }}</span
+              >{{ url.active ? __('Active') : __('Disabled') }}</span
             >
             <button
               v-if="
@@ -45,7 +45,7 @@
               type="datetime"
               v-model="date"
               value-type="format"
-              placeholder="Date"
+              :placeholder="__('Date')"
               :shortcuts="shortcuts"
               range
             ></date-picker>

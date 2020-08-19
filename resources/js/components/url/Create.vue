@@ -11,7 +11,7 @@
             class="form-input w-full"
             :class="!long_url || valid_url ? 'valid' : 'invalid'"
             name="long_url"
-            placeholder="URL"
+            :placeholder="__('URL')"
             v-model="long_url"
             v-on:keyup.enter="create"
           />

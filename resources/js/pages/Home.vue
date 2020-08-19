@@ -124,7 +124,7 @@ export default {
   },
 
   metaInfo() {
-    return { title: 'Dashboard' }
+    return { title: this.__('Dashboard') }
   },
 
   data: () => ({

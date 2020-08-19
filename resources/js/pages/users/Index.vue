@@ -123,7 +123,7 @@ export default {
   components: { CreateUser },
 
   metaInfo() {
-    return { title: 'Users' }
+    return { title: this.__('Users') }
   },
 
   data: () => ({
