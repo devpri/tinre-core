@@ -1,8 +1,8 @@
 import Home from '../pages/Home'
 import Url from '../pages/Url'
 import Profile from '../pages/Profile'
-import UsersIndex from '../pages/users/index'
-import UsersShow from '../pages/users/show'
+import UsersIndex from '../pages/users/Index'
+import UsersShow from '../pages/users/Show'
 import Error from '../pages/404'
 
 export default [
