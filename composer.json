@@ -8,8 +8,9 @@
       "email": "paul@devpri.com"
     }
   ],
-  "homepage": "https://github.com/devpri/tinre-core",
+  "homepage": "https://tinre.devpri.com",
   "keywords": [
+    "laravel-url-shortener",
     "url-shortener",
     "url",
     "laravel",
