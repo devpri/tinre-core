@@ -59,6 +59,14 @@
                 />
               </div>
               <div>
+                <a
+                  class="btn btn-secondary btn-sm py-2"
+                  v-if="urlPreview"
+                  :href="appUrl + path + urlPreviewSuffix"
+                  target="_blank"
+                >
+                  <font-awesome-icon :icon="['far', 'eye']" />
+                </a>
                 <button class="btn btn-secondary btn-sm py-2" @click="copy">
                   <font-awesome-icon :icon="['far', 'copy']" />
                 </button>
@@ -76,16 +84,16 @@
 
 <script>
 import axios from 'axios'
-import { faCopy } from '@fortawesome/free-regular-svg-icons'
+import { faCopy, faEye } from '@fortawesome/free-regular-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-library.add([faCopy, faTimes])
+library.add([faCopy, faTimes, faEye])
 
 export default {
   name: 'create-url-guest',
 
-  props: ['appUrl', 'customPath'],
+  props: ['appUrl', 'customPath', 'urlPreview', 'urlPreviewSuffix'],
 
   data: () => ({
     long_url: null,
