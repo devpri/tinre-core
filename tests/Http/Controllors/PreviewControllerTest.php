@@ -17,7 +17,7 @@ class PreviewControllerTest extends TestCase
     {
         $url = factory(Url::class)->create();
 
-        $this->get($url->path . config('tinre.url_preview_suffix', '+'))
+        $this->get($url->path.config('tinre.url_preview_suffix', '+'))
             ->assertStatus(200)
             ->assertSee($url->path)
             ->assertSee($url->long_url);

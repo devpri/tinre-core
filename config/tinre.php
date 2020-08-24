@@ -6,7 +6,7 @@ return [
     'dashboard_path' => '/dashboard',
 
     'date_format' => 'MM/DD/YYYY, h:mm:ss a',
-    
+
     'redirect_user_to_dashboard' => true,
 
     'roles' => [
