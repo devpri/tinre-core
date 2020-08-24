@@ -24,7 +24,9 @@ class RouteRegistration
             ->name('dashboard');
 
         if (config('tinre.url_preview', true)) {
-            Route::get('{path}'.config('tinre.url_preview_suffix', '+'), 'Devpri\Tinre\Http\Controllers\PreviewController@show')->name('preview');
+            Route::get('{path}'.config('tinre.url_preview_suffix', '+'), 'Devpri\Tinre\Http\Controllers\PreviewController@show')
+                ->middleware(['web'])
+                ->name('preview');
         }
 
         Route::get('{path}', 'Devpri\Tinre\Http\Controllers\RedirectController@redirect')->name('url');
