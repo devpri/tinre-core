@@ -31,8 +31,9 @@ axios.interceptors.response.use(
     return response
   },
   function (error) {
-    if (error.response.status === 401) {
-      window.location = window.location.hostname
+    if (error.response.status === 401 || error.response.status === 404) {
+      window.location =
+        window.location.protocol + '//' + window.location.hostname
     }
 
     let errorMessage = error.response.data.message
