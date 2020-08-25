@@ -16,6 +16,17 @@
               >{{ url.active ? __('Active') : __('Disabled') }}</span
             >
             <button
+              class="btn btn-secondary btn-sm py-2"
+              v-tooltip="{
+                content: __('Copied!'),
+                trigger: 'manual',
+                show: copyTooltip,
+              }"
+              @click="copy"
+            >
+              <font-awesome-icon :icon="['far', 'copy']" />
+            </button>
+            <button
               v-if="
                 url.authorized_actions &&
                 url.authorized_actions.includes('update')
@@ -167,10 +178,10 @@ import ClicksChart from '~/components/stats/ClicksChart'
 import DataList from '~/components/stats/DataList'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTrashAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faEdit, faCopy } from '@fortawesome/free-regular-svg-icons'
 import timeShortcuts from '../mixins/TimeShortcuts'
 
-library.add([faEdit, faTrashAlt, faSpinner])
+library.add([faEdit, faTrashAlt, faSpinner, faCopy])
 
 export default {
   components: {
@@ -190,6 +201,7 @@ export default {
   data: () => ({
     url: {},
     loading: false,
+    copyTooltip: false,
     date: [
       moment().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
       moment().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
@@ -214,6 +226,23 @@ export default {
         .catch((error) => {
           this.loading = false
         })
+    },
+
+    copy() {
+      let text = document.createElement('textarea')
+      document.body.appendChild(text)
+
+      text.value = this.$config.app_url + this.url.path
+      text.select()
+
+      document.execCommand('copy')
+      document.body.removeChild(text)
+
+      this.copyTooltip = true
+
+      setTimeout(() => {
+        this.copyTooltip = false
+      }, 600)
     },
   },
 }
