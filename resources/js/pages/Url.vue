@@ -1,7 +1,7 @@
 <template>
   <div class="content w-auto flex-1 px-4">
     <div class="card mb-8">
-      <div class="card-header p-4">
+      <div v-if="!loading" class="card-header p-4">
         <div class="flex flex-wrap items-center">
           <div class="w-full md:w-2/3">
             <h1 class="text-xl break-all">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="card-content p-4">
-        <div class="flex justify-center">
+        <div v-if="!loading" class="flex justify-center">
           <div class="w-full lg:w-1/2">
             <date-picker
               type="datetime"
@@ -50,6 +50,9 @@
               range
             ></date-picker>
           </div>
+        </div>
+        <div v-if="loading" class="w-full text-center p-4">
+          <font-awesome-icon icon="spinner" class="fa-2x fa-spin" />
         </div>
       </div>
     </div>
@@ -163,11 +166,11 @@ import DeleteUrl from '~/components/url/Delete'
 import ClicksChart from '~/components/stats/ClicksChart'
 import DataList from '~/components/stats/DataList'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
 import timeShortcuts from '../mixins/TimeShortcuts'
 
-library.add([faEdit, faTrashAlt])
+library.add([faEdit, faTrashAlt, faSpinner])
 
 export default {
   components: {
@@ -186,6 +189,7 @@ export default {
 
   data: () => ({
     url: {},
+    loading: false,
     date: [
       moment().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
       moment().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
@@ -198,12 +202,18 @@ export default {
   },
 
   methods: {
-    async getUrl() {
-      try {
-        const { data } = await axios.get('urls/' + this.$route.params.path)
+    getUrl() {
+      this.loading = true
 
-        this.url = data.data
-      } catch (e) {}
+      axios
+        .get('urls/' + this.$route.params.path)
+        .then((response) => {
+          this.loading = false
+          this.url = response.data.data
+        })
+        .catch((error) => {
+          this.loading = false
+        })
     },
   },
 }
