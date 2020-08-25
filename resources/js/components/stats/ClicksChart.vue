@@ -67,6 +67,8 @@ export default {
                 type: 'time',
                 time: {
                   unit: this.getUnit(),
+                },
+                ticks: {
                   min: this.date[0],
                   max: this.date[1],
                 },
