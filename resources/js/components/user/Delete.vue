@@ -14,10 +14,7 @@
           <button class="btn btn-primary" @click="this.delete">
             {{ __('Delete') }}
           </button>
-          <button
-            class="btn btn-secondary"
-            @click="this.$modal.hide('delete-user')"
-          >
+          <button class="btn btn-secondary" @click="$modal.hide('delete-user')">
             {{ __('Cancel') }}
           </button>
         </div>

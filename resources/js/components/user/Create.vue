@@ -43,9 +43,9 @@
         <div class="form-group mb-4">
           <select v-model="role" class="form-input w-full">
             <option :value="null" disabled>{{ __('Role') }}</option>
-            <option v-for="role in $config.roles" :key="role" :value="role">{{
-              __(role)
-            }}</option>
+            <option v-for="role in $config.roles" :key="role" :value="role">
+              {{ __(role) }}
+            </option>
           </select>
           <div
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -73,6 +73,9 @@
         <div class="form-group mb-4 text-center">
           <button class="btn btn-primary" @click="create">
             {{ __('Create') }}
+          </button>
+          <button class="btn btn-secondary" @click="$modal.hide('create-user')">
+            {{ __('Cancel') }}
           </button>
         </div>
       </div>

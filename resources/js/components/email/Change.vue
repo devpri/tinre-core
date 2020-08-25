@@ -32,6 +32,12 @@
           <button class="btn btn-primary" @click="change">
             {{ __('Change') }}
           </button>
+          <button
+            class="btn btn-secondary"
+            @click="$modal.hide('change-email')"
+          >
+            {{ __('Cancel') }}
+          </button>
         </div>
       </div>
     </modal>

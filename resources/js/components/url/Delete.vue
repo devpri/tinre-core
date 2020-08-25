@@ -9,10 +9,7 @@
           <button class="btn btn-primary" @click="this.delete">
             {{ __('Delete') }}
           </button>
-          <button
-            class="btn btn-secondary"
-            @click="this.$modal.hide('delete-url')"
-          >
+          <button class="btn btn-secondary" @click="$modal.hide('delete-url')">
             {{ __('Cancel') }}
           </button>
         </div>

@@ -41,6 +41,12 @@
           <button class="btn btn-primary" @click="update">
             {{ __('Update') }}
           </button>
+          <button
+            class="btn btn-secondary"
+            @click="$modal.hide('update-profile')"
+          >
+            {{ __('Cancel') }}
+          </button>
         </div>
       </div>
     </modal>

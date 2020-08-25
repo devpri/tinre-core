@@ -32,7 +32,7 @@
         </div>
         <div class="form-group mb-4">
           <div class="flex flex-wrap bg-gray-200">
-            <div class="w-full md:w-1/2 p-2">{{ $config.app_url }}/</div>
+            <div class="w-full md:w-1/2 p-2">{{ $config.app_url }}</div>
             <div class="w-full md:w-1/2">
               <input
                 type="text"
@@ -52,6 +52,9 @@
         <div class="form-group mb-4 text-center">
           <button class="btn btn-primary" @click="this.update">
             {{ __('Update') }}
+          </button>
+          <button class="btn btn-secondary" @click="$modal.hide('update-url')">
+            {{ __('Cancel') }}
           </button>
         </div>
       </div>

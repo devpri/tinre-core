@@ -46,6 +46,9 @@
           <button class="btn btn-primary" @click="create">
             {{ __('Shorten') }}
           </button>
+          <button class="btn btn-secondary" @click="$modal.hide('create')">
+            {{ __('Cancel') }}
+          </button>
         </div>
       </div>
     </modal>
