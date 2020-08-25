@@ -27,7 +27,7 @@
                         </div>
                         <div class="content flex items-center -m-2">
                             <button class="btn btn-md bg-gray-100 hover:bg-gray-300 mx-2" @click="$modal.show('create')">{{ __('Create') }}</button>
-                            @include('tinre::partials.user')
+                            @include('tinre::partials.menu')
                         </div>
                     </div>
                 </div>
