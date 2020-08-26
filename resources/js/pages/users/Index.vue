@@ -2,8 +2,8 @@
   <div class="content w-auto flex-1 px-4">
     <div class="card mb-8">
       <div class="list overflow-hidden">
-        <div class="list-header flex-wrap justify-between flex">
-          <div class="w-full lg:w-2/6">
+        <div class="list-header flex-wrap justify-between flex -mx-2">
+          <div class="w-auto flex-1 lg:w-2/6 px-2">
             <div class="mb-0 form-group">
               <input
                 type="text"
@@ -13,13 +13,13 @@
               />
             </div>
           </div>
-          <div class="w-full lg:w-2/6 text-left md:text-right">
+          <div class="w-auto lg:w-2/6 text-left md:text-right self-center px-2">
             <button
               v-if="
                 users.authorized_actions &&
                 users.authorized_actions.includes('create')
               "
-              class="btn btn-secondary btn-sm py-2 my-2"
+              class="btn btn-secondary btn-sm"
               @click="$modal.show('create-user')"
             >
               <font-awesome-icon icon="user-plus" />
@@ -38,7 +38,7 @@
             v-for="user in users.data"
             :key="user.id"
           >
-            <div class="w-full lg:w-2/3 px-2">
+            <div class="w-auto flex-1 px-2">
               <div
                 @click="$router.push('/users/' + user.id)"
                 class="text-primary cursor-pointer font-bold"
@@ -52,7 +52,7 @@
                 {{ user.email }}
               </div>
             </div>
-            <div class="w-full lg:w-1/3 px-2 py-2 text-left md:text-right">
+            <div class="w-auto px-2 py-2 text-left md:text-right">
               <button
                 @click="$router.push('/users/' + user.id)"
                 class="btn btn-sm btn-secondary"
