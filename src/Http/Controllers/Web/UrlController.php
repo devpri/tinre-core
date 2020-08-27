@@ -22,9 +22,9 @@ class UrlController extends Controller
         $request->validate([
             'search' => ['nullable', 'string'],
             'date' => ['nullable', 'array'],
-            'limit' => ['nullable', 'number', 'min:1', 'max:100'],
+            'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
             'active' => ['nullable', 'boolean'],
-            'sort_by' => ['nullable', 'in:created_at,updated_at,clicks'],
+            'sort_by' => ['nullable', 'in:created_at,updated_at,total_clicks'],
             'sort_direction' => ['nullable', 'in:asc,desc'],
         ]);
 

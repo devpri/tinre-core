@@ -2,9 +2,9 @@
   <div class="content w-auto flex-1 px-4">
     <div class="card mb-8">
       <div class="list overflow-hidden">
-        <div class="list-header flex-wrap justify-between flex">
-          <div class="w-full lg:w-2/6">
-            <div class="mb-0 form-group">
+        <div class="list-header flex-wrap justify-between flex -mx-2">
+          <div class="w-auto flex-1 mx-2">
+            <div class="mb-0 lg:w-64 form-group">
               <input
                 type="text"
                 v-model="params.search"
@@ -13,15 +13,67 @@
               />
             </div>
           </div>
-          <div class="w-full lg:w-2/6">
-            <date-picker
-              type="datetime"
-              v-model="params.date"
-              value-type="format"
-              :placeholder="__('Date')"
-              :shortcuts="shortcuts"
-              range
-            ></date-picker>
+          <div class="w-auto mx-2 self-center">
+            <v-popover
+              ref="menu"
+              placement="bottom-start"
+              :autoHide="autoHideFilter"
+            >
+              <button class="pointer btn btn-sm btn-primary">
+                <font-awesome-icon :icon="['fas', 'filter']" />
+              </button>
+              <template class="hidden" slot="popover">
+                <div class="card p-4 w-64">
+                  <div class="mb-2">
+                    <p class="mb-1">{{ __('Date') }}</p>
+                    <date-picker
+                      type="datetime"
+                      v-model="params.date"
+                      value-type="format"
+                      :placeholder="__('Date')"
+                      :shortcuts="shortcuts"
+                      @open="openDatePicker"
+                      @close="closeDatePicker"
+                      range
+                    ></date-picker>
+                  </div>
+                  <div class="form-group mb-2">
+                    <p class="mb-1">{{ __('Active') }}</p>
+                    <select v-model="params.active" class="form-input w-full">
+                      <option :value="null">-</option>
+                      <option :value="1">{{ __('Yes') }}</option>
+                      <option :value="0">{{ __('No') }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group mb-2">
+                    <p class="mb-1">{{ __('Per Page') }}</p>
+                    <select v-model="params.limit" class="form-input w-full">
+                      <option :value="25">25</option>
+                      <option :value="50">50</option>
+                      <option :value="100">100</option>
+                    </select>
+                  </div>
+                  <div class="form-group mb-2">
+                    <p class="mb-1">{{ __('Sort By') }}</p>
+                    <select v-model="params.sort_by" class="form-input w-full">
+                      <option value="created_at">{{ __('Created At') }}</option>
+                      <option value="updated_at">{{ __('Updated At') }}</option>
+                      <option value="total_clicks">{{ __('Clicks') }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group mb-2">
+                    <p class="mb-1">{{ __('Sort Direction') }}</p>
+                    <select
+                      v-model="params.sort_direction"
+                      class="form-input w-full"
+                    >
+                      <option value="asc">{{ __('ASC') }}</option>
+                      <option value="desc">{{ __('DESC') }}</option>
+                    </select>
+                  </div>
+                </div>
+              </template>
+            </v-popover>
           </div>
         </div>
         <div v-if="loading" class="w-full text-center p-4">
@@ -112,11 +164,19 @@ import {
   faChevronLeft,
   faChevronRight,
   faChartArea,
+  faFilter,
 } from '@fortawesome/free-solid-svg-icons'
 import { faEye } from '@fortawesome/free-regular-svg-icons'
 import timeShortcuts from '../mixins/TimeShortcuts'
 
-library.add([faSpinner, faChevronLeft, faChevronRight, faChartArea, faEye])
+library.add([
+  faSpinner,
+  faChevronLeft,
+  faChevronRight,
+  faChartArea,
+  faEye,
+  faFilter,
+])
 
 export default {
   components: {
@@ -134,15 +194,24 @@ export default {
       page: 1,
       search: null,
       date: null,
+      active: null,
+      sort_by: 'created_at',
+      sort_direction: 'desc',
+      limit: 25,
     },
     timer: null,
     loading: true,
+    autoHideFilter: true,
     shortcuts: timeShortcuts,
   }),
 
   computed: {
-    date() {
-      return this.params.date
+    filter() {
+      return `${this.params.date}|${this.params.active}|${this.params.limit}`
+    },
+
+    sort() {
+      return `${this.params.active}|${this.params.sort_by}|${this.params.sort_direction}`
     },
 
     search() {
@@ -151,7 +220,17 @@ export default {
   },
 
   watch: {
-    date() {
+    filter() {
+      this.params.page = 1
+
+      if (this.params.date && (!this.params.date[0] || !this.params.date[1])) {
+        this.params.date = null
+      }
+
+      this.getUrls()
+    },
+
+    sort() {
       this.getUrls()
     },
 
@@ -207,6 +286,16 @@ export default {
       this.params.page = this.params.page + 1
       this.getUrls()
       window.scrollTo(0, 0)
+    },
+
+    openDatePicker() {
+      this.autoHideFilter = false
+    },
+
+    closeDatePicker() {
+      setTimeout(() => {
+        this.autoHideFilter = true
+      }, 200)
     },
   },
 }

@@ -16,7 +16,7 @@ class UrlService
     {
         $search = $data['search'] ?? null;
         $date = $data['date'] ?? null;
-        $limit = $data['limit'] ?? 30;
+        $limit = $data['limit'] ?? 25;
         $active = $data['active'] ?? null;
         $sortBy = $data['sort_by'] ?? 'created_at';
         $sortDirection = $data['sort_direction'] ?? 'desc';
