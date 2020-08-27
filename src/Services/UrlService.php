@@ -5,7 +5,6 @@ namespace Devpri\Tinre\Services;
 use Devpri\Tinre\Models\Url;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -13,24 +12,15 @@ use Illuminate\Validation\ValidationException;
 
 class UrlService
 {
-    public function index(Request $request)
-    {
-        $request->validate([
-            'search' => ['nullable', 'string'],
-            'date' => ['nullable', 'array'],
-            'limit' => ['nullable', 'number', 'min:1', 'max:100'],
-            'active' => ['nullable', 'boolean'],
-            'sort_by' => ['nullable', 'in:created_at,updated_at,clicks'],
-            'sort_direction' => ['nullable', 'in:asc,desc'],
-        ]);
 
-        $user = $request->user();
-        $search = $request->search;
-        $date = $request->date;
-        $limit = $request->limit ?? 30;
-        $active = $request->active;
-        $sortBy = $request->sort_by ?? 'created_at';
-        $sortDirection = $request->sort_direction ?? 'desc';
+    public function index($data, $user)
+    {
+        $search = $data['search'] ?? null;
+        $date = $data['date'] ?? null;
+        $limit = $data['limit'] ?? 30;
+        $active = $data['active'] ?? null;
+        $sortBy = $data['sort_by'] ?? 'created_at';
+        $sortDirection = $data['sort_direction'] ?? 'desc';
 
         $query = Url::query();
 
@@ -60,25 +50,18 @@ class UrlService
         return $query->orderBy($sortBy, $sortDirection)->with('user')->paginate($limit);
     }
 
-    public function create(Request $request): Url
+    public function create($longUrl, $path, $user): Url
     {
-        $this->validateUrl($request->long_url);
-
-        $user = $request->user();
-
-        if ($user && $user->cant('create', Url::class)) {
-            abort(401);
-        }
+        $this->validateUrl($longUrl);
 
         $url = new Url();
-        $url->long_url = $request->long_url;
+        $url->long_url = $longUrl;
         $url->user_id = $user ? $user->id : null;
 
-        if ($request->path && ($user || config('tinre.guest_form_custom_path'))) {
-            $url->path = $request->path;
+        if ($path && ($user || config('tinre.guest_form_custom_path'))) {
+            $this->validatePath($path);
 
-            $this->validatePath($url->path);
-
+            $url->path = $path;
             $url->save();
 
             return $url;
@@ -103,29 +86,23 @@ class UrlService
         }
     }
 
-    public function update(Request $request, $id)
+    public function update($id, $active, $longUrl, $path, $user): Url
     {
-        $request->validate([
-            'active' => ['required', 'boolean'],
-        ]);
-
-        $this->validateUrl($request->long_url);
+        $this->validateUrl($longUrl);
 
         $url = Url::where('id', $id)->firstOrFail();
 
-        if ($url->path != $request->path) {
-            $this->validatePath($request->path);
+        if ($url->path != $path) {
+            $this->validatePath($path);
         }
-
-        $user = $request->user();
 
         if ($user->cant('update', $url)) {
             abort(401);
         }
 
-        $url->active = $request->active;
-        $url->long_url = $request->long_url;
-        $url->path = $request->path;
+        $url->active = $active;
+        $url->long_url = $longUrl;
+        $url->path = $path;
         $url->save();
 
         return $url;
@@ -134,9 +111,9 @@ class UrlService
     protected function validatePath($path): void
     {
         Validator::make([
-            'path' => $path,
+            'path' => $path
         ], [
-            'path' => ['required', 'alpha_dash', 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')],
+            'path' => ['required', 'alpha_dash', 'min:' . config('tinre.min_path_length'), 'max:' . config('tinre.max_path_length')],
         ])->validate();
 
         $path = strtolower($path);
@@ -159,7 +136,7 @@ class UrlService
     protected function validateUrl($url): void
     {
         Validator::make([
-            'long_url' => $url,
+            'long_url' => $url
         ], [
             'long_url' => ['required', 'url', 'active_url'],
         ])->validate();

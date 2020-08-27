@@ -19,7 +19,18 @@ class UrlController extends Controller
 
     public function index(Request $request)
     {
-        $urls = $this->urlService->index($request);
+        $request->validate([
+            'search' => ['nullable', 'string'],
+            'date' => ['nullable', 'array'],
+            'limit' => ['nullable', 'number', 'min:1', 'max:100'],
+            'active' => ['nullable', 'boolean'],
+            'sort_by' => ['nullable', 'in:created_at,updated_at,clicks'],
+            'sort_direction' => ['nullable', 'in:asc,desc']
+        ]);
+
+        $user = $request->user();
+
+        $urls = $this->urlService->index($request->all(), $user);
 
         return UrlResource::collection($urls)->additional(['authorized_actions' => (new Url)->authorizedActions()]);
     }
@@ -39,14 +50,26 @@ class UrlController extends Controller
 
     public function create(Request $request): UrlResource
     {
-        $url = $this->urlService->create($request);
+        $user = $request->user();
+
+        if ($user && $user->cant('create', Url::class)) {
+            abort(401);
+        }
+
+        $url = $this->urlService->create($request->long_url, $request->path, $user);
 
         return (new UrlResource($url))->additional(['message' => 'The URL has been created.']);
     }
 
     public function update(Request $request, $id)
     {
-        $url = $this->urlService->update($request, $id);
+        $request->validate([
+            'active' => ['required', 'boolean'],
+        ]);
+
+        $user = $request->user();
+
+        $url = $this->urlService->update($id, $request->active, $request->long_url, $request->path, $user);
 
         return (new UrlResource($url))->additional(['message' => 'The URL has been updated.']);
     }
