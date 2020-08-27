@@ -12,7 +12,6 @@ use Illuminate\Validation\ValidationException;
 
 class UrlService
 {
-
     public function index($data, $user)
     {
         $search = $data['search'] ?? null;
@@ -111,9 +110,9 @@ class UrlService
     protected function validatePath($path): void
     {
         Validator::make([
-            'path' => $path
+            'path' => $path,
         ], [
-            'path' => ['required', 'alpha_dash', 'min:' . config('tinre.min_path_length'), 'max:' . config('tinre.max_path_length')],
+            'path' => ['required', 'alpha_dash', 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')],
         ])->validate();
 
         $path = strtolower($path);
@@ -136,7 +135,7 @@ class UrlService
     protected function validateUrl($url): void
     {
         Validator::make([
-            'long_url' => $url
+            'long_url' => $url,
         ], [
             'long_url' => ['required', 'url', 'active_url'],
         ])->validate();
