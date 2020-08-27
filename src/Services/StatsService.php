@@ -5,6 +5,7 @@ namespace Devpri\Tinre\Services;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class StatsService
 {
@@ -31,6 +32,12 @@ class StatsService
 
     public function getData(string $column, int $urlId, array $date): object
     {
+        if (! in_array($column, ['country', 'region', 'city', 'device_type', 'device_brand', 'device_model', 'os', 'browser', 'referer', 'referer_host'])) {
+            throw ValidationException::withMessages([
+                'column' => [__('Unsupported column.')],
+            ]);
+        }
+
         $dbFunction = $this->driver === 'pgsql' ? 'COALESCE' : 'IFNULL';
 
         $data = DB::table('clicks')->where('url_id', $urlId)

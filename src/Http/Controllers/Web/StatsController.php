@@ -6,7 +6,6 @@ use Devpri\Tinre\Http\Controllers\Controller;
 use Devpri\Tinre\Models\Url;
 use Devpri\Tinre\Services\StatsService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class StatsController extends Controller
 {
@@ -41,12 +40,6 @@ class StatsController extends Controller
         $request->validate([
             'date' => ['required', 'array', 'min:2', 'max:2'],
         ]);
-
-        if (! in_array($column, ['country', 'region', 'city', 'device_type', 'device_brand', 'device_model', 'os', 'browser', 'referer', 'referer_host'])) {
-            throw ValidationException::withMessages([
-                'column' => [__('Unsupported column.')],
-            ]);
-        }
 
         $user = $request->user();
 
