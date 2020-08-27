@@ -46,7 +46,6 @@ class UrlController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $url = $this->urlService->update($request, $id);
 
         return (new UrlResource($url))->additional(['message' => 'The URL has been updated.']);
