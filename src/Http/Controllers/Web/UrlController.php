@@ -25,7 +25,7 @@ class UrlController extends Controller
             'limit' => ['nullable', 'number', 'min:1', 'max:100'],
             'active' => ['nullable', 'boolean'],
             'sort_by' => ['nullable', 'in:created_at,updated_at,clicks'],
-            'sort_direction' => ['nullable', 'in:asc,desc']
+            'sort_direction' => ['nullable', 'in:asc,desc'],
         ]);
 
         $user = $request->user();
