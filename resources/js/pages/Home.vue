@@ -19,7 +19,7 @@
               placement="bottom-start"
               :autoHide="autoHideFilter"
             >
-              <button class="pointer btn btn-sm btn-primary">
+              <button class="pointer btn btn-sm btn-secondary">
                 <font-awesome-icon :icon="['fas', 'filter']" />
               </button>
               <template class="hidden" slot="popover">

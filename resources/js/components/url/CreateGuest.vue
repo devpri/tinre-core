@@ -2,75 +2,86 @@
   <div>
     <div class="p-4">
       <div class="flex justify-center">
-        <div v-if="!created" class="w-full md:w-1/2 lg:w-1/3 text-left">
-          <div class="form-group mb-4">
-            <input
-              type="url"
-              class="form-input w-full"
-              :class="!long_url || valid_url ? 'valid' : 'invalid'"
-              name="long_url"
-              :placeholder="__('URL')"
-              v-model="long_url"
-              v-on:keyup.enter="create"
-            />
-            <span
-              class="error-message"
-              v-if="long_url && !valid_url"
-              role="alert"
-              >{{ __('Invalid URL') }}</span
+        <div v-if="!created" class="w-full lg:w-2/3 text-left">
+          <div class="create-guest flex flex-wrap shadow-lg">
+            <div
+              class="url w-full"
+              :class="customPath ? 'md:w-1/2' : 'md:w-auto flex-1'"
             >
-          </div>
-          <div v-if="customPath" class="form-group mb-4">
-            <div class="flex flex-wrap bg-gray-200 items-center">
-              <div class="w-full md:w-1/2 px-4 py-2">{{ appUrl }}</div>
-              <div class="w-full md:w-1/2">
-                <input
-                  type="text"
-                  class="form-input w-full"
-                  :class="!path || valid_path ? 'valid' : 'invalid'"
-                  name="path"
-                  required
-                  :placeholder="__('Path')"
-                  v-model="path"
-                  v-on:keyup.enter="create"
-                />
-              </div>
+              <input
+                type="url"
+                class="form-input w-full p-4 border rounded-none border-white"
+                :class="
+                  !long_url || valid_url ? 'valid' : 'invalid border-red-500'
+                "
+                name="long_url"
+                :placeholder="__('URL')"
+                v-model="long_url"
+                v-on:keyup.enter="create"
+              />
             </div>
-            <span class="error-message" v-if="path && !valid_path" role="alert">
-              {{ __('Invalid Path') }}
-            </span>
-          </div>
-          <div class="form-group mb-4 text-center">
-            <button class="btn btn-primary" @click="create">
-              {{ __('Shorten') }}
-            </button>
+            <div v-if="customPath" class="path w-full md:w-auto flex-1">
+              <input
+                type="text"
+                class="form-input w-full p-4 border rounded-none border-white"
+                :class="
+                  !path || valid_path ? 'valid' : 'invalid border-red-500'
+                "
+                name="path"
+                required
+                :placeholder="__('Path')"
+                v-model="path"
+                v-on:keyup.enter="create"
+              />
+            </div>
+            <div class="w-full md:w-auto">
+              <button
+                class="btn btn-primary w-full lg:w-auto h-full"
+                @click="create"
+              >
+                {{ __('Shorten') }}
+              </button>
+            </div>
           </div>
         </div>
-        <div v-if="created" class="w-full md:w-1/2 lg:w-1/3 text-left">
-          <div class="flex flex-wrap bg-gray-200">
-            <div class="w-full p-2 flex items-center justify-between">
+        <div v-if="created" class="w-full lg:w-2/3 text-left">
+          <div
+            class="flex flex-wrap rounded shadow-lg overflow-hidden bg-white"
+          >
+            <div class="w-full flex items-center justify-between">
               <div class="flex-1">
                 <input
                   id="short-url"
-                  class="w-full bg-gray-200 py-2"
+                  class="w-full outline-none p-4"
                   type="text"
                   :value="appUrl + path"
                   readonly
                 />
               </div>
-              <div>
+              <div class="px-4">
                 <a
-                  class="btn btn-secondary btn-sm py-2"
+                  class="btn btn-secondary btn-sm py-2 inline-block w-8"
                   v-if="urlPreview"
                   :href="appUrl + path + urlPreviewSuffix"
                   target="_blank"
                 >
                   <font-awesome-icon :icon="['far', 'eye']" />
                 </a>
-                <button class="btn btn-secondary btn-sm py-2" @click="copy">
+                <button
+                  class="btn btn-secondary btn-sm py-2 w-8"
+                  v-tooltip="{
+                    content: __('Copied!'),
+                    trigger: 'manual',
+                    show: copyTooltip,
+                  }"
+                  @click="copy"
+                >
                   <font-awesome-icon :icon="['far', 'copy']" />
                 </button>
-                <button class="btn btn-secondary btn-sm py-2" @click="clear">
+                <button
+                  class="btn btn-secondary btn-sm py-2 w-8"
+                  @click="clear"
+                >
                   <font-awesome-icon :icon="['fas', 'times']" />
                 </button>
               </div>
@@ -101,6 +112,7 @@ export default {
     path: null,
     valid_path: true,
     created: false,
+    copyTooltip: false,
   }),
 
   watch: {
@@ -138,6 +150,12 @@ export default {
       copyTextarea.select()
 
       document.execCommand('copy')
+
+      this.copyTooltip = true
+
+      setTimeout(() => {
+        this.copyTooltip = false
+      }, 600)
     },
 
     clear() {

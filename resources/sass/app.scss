@@ -293,3 +293,44 @@ button {
       transition: opacity .15s;
     }
   }
+
+/* Create guest */
+.create-guest {
+    @apply rounded;
+
+    input,
+    button {
+        min-height: 3.5rem;
+        border-radius: 0;
+        outline: none;
+    }
+
+    .url input {
+        border-radius: 0.25rem 0.25rem 0 0 ;
+    }
+
+    .path input {
+        border-top-color: #CBD5E0;
+    }
+
+    button {
+        border-radius: 0 0 0.25rem 0.25rem;
+    }
+}
+
+@screen md {
+    .create-guest {
+        .url input {
+            border-radius: 0.25rem 0 0 0.25rem;
+        }
+
+        .path input {
+            border-left-color: #CBD5E0;
+            border-top-color: #fff;
+        }
+
+        button {
+            border-radius: 0 0.25rem 0.25rem 0;
+        }
+    }
+}
