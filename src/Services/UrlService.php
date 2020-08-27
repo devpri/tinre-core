@@ -13,7 +13,6 @@ use Illuminate\Validation\ValidationException;
 
 class UrlService
 {
-
     public function index(Request $request)
     {
         $request->validate([
@@ -22,17 +21,17 @@ class UrlService
             'limit' => ['nullable', 'number', 'min:1', 'max:100'],
             'active' => ['nullable', 'boolean'],
             'sort_by' => ['nullable', 'in:created_at,updated_at,clicks'],
-            'sort_direction' => ['nullable', 'in:asc,desc']
+            'sort_direction' => ['nullable', 'in:asc,desc'],
         ]);
-        
+
         $user = $request->user();
         $search = $request->search;
         $date = $request->date;
         $limit = $request->limit ?? 30;
-        $active =$request->active;
+        $active = $request->active;
         $sortBy = $request->sort_by ?? 'created_at';
         $sortDirection = $request->sort_direction ?? 'desc';
-                
+
         $query = Url::query();
 
         if ($user->cant('viewAny', Url::class)) {
@@ -53,11 +52,11 @@ class UrlService
         if ($date) {
             $query->whereBetween('created_at', $date);
         }
-        
-        if(isset($active)) {
+
+        if (isset($active)) {
             $query->where('active', $active);
         }
-        
+
         return $query->orderBy($sortBy, $sortDirection)->with('user')->paginate($limit);
     }
 
@@ -70,7 +69,7 @@ class UrlService
         if ($user && $user->cant('create', Url::class)) {
             abort(401);
         }
-        
+
         $url = new Url();
         $url->long_url = $request->long_url;
         $url->user_id = $user ? $user->id : null;
@@ -111,13 +110,13 @@ class UrlService
         ]);
 
         $this->validateUrl($request->long_url);
-        
+
         $url = Url::where('id', $id)->firstOrFail();
 
-        if($url->path != $request->path) {
+        if ($url->path != $request->path) {
             $this->validatePath($request->path);
         }
-        
+
         $user = $request->user();
 
         if ($user->cant('update', $url)) {
@@ -135,11 +134,11 @@ class UrlService
     protected function validatePath($path): void
     {
         Validator::make([
-            'path' => $path
+            'path' => $path,
         ], [
             'path' => ['required', 'alpha_dash', 'min:'.config('tinre.min_path_length'), 'max:'.config('tinre.max_path_length')],
         ])->validate();
-        
+
         $path = strtolower($path);
 
         $url = DB::table('urls')->whereRaw('lower(path) like (?)', ["%{$path}%"])->count();
@@ -160,11 +159,11 @@ class UrlService
     protected function validateUrl($url): void
     {
         Validator::make([
-            'long_url' => $url
+            'long_url' => $url,
         ], [
             'long_url' => ['required', 'url', 'active_url'],
         ])->validate();
-        
+
         if (in_array(parse_url($url, PHP_URL_HOST), config('tinre.restricted_domains'))) {
             throw ValidationException::withMessages([
                 'long_url' => [__('Restricted domain.')],
