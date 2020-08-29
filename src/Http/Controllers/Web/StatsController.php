@@ -30,7 +30,7 @@ class StatsController extends Controller
             abort(401);
         }
 
-        if (!$user->hasPermissionTo('stats:view')) {
+        if (! $user->hasPermissionTo('stats:view')) {
             abort(401);
         }
 
@@ -52,8 +52,8 @@ class StatsController extends Controller
         if ($user->cant('view', $url)) {
             abort(401);
         }
-        
-        if (!$user->hasPermissionTo('stats:view')) {
+
+        if (! $user->hasPermissionTo('stats:view')) {
             abort(401);
         }
 

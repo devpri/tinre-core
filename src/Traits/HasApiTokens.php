@@ -12,7 +12,7 @@ trait HasApiTokens
     {
         return $this->hasMany('Devpri\Tinre\Models\AccessToken');
     }
-    
+
     public function createToken(string $name)
     {
         $plainTextToken = Str::random(100);
