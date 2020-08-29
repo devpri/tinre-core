@@ -142,7 +142,7 @@ class TinreServiceProvider extends ServiceProvider
     }
 
     protected function registerTokenGuard()
-    {        
+    {
         Auth::resolved(function ($auth) {
             $auth->extend('token', function ($app, $name, array $config) {
                 return tap($this->makeTokenGuard(), function ($guard) {
@@ -151,7 +151,7 @@ class TinreServiceProvider extends ServiceProvider
             });
         });
     }
-    
+
     protected function makeTokenGuard()
     {
         return new RequestGuard(function ($request) {

@@ -37,7 +37,7 @@ return [
         'access_token:delete',
         'access_token:view:any',
         'access_token:update:any',
-        'access_token:delete:any',     
+        'access_token:delete:any',
     ],
 
     'role_permissions' => [

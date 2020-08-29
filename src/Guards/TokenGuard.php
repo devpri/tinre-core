@@ -8,16 +8,15 @@ use Illuminate\Http\Request;
 class TokenGuard
 {
     protected $request;
-    
+
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
     public function user()
-    {        
+    {
         if ($token = $this->request->bearerToken()) {
-
             $accessToken = AccessToken::findToken($token);
 
             if (! $accessToken) {

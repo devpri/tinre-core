@@ -52,10 +52,10 @@ class UserPolicy
 
     public function updateOwn(User $user, User $userModel): bool
     {
-        if (!$user->hasPermissionTo('user:update')) {
+        if (! $user->hasPermissionTo('user:update')) {
             return false;
         }
-        
+
         if ($user->id === $userModel->id) {
             return true;
         }
@@ -65,7 +65,7 @@ class UserPolicy
 
     public function changeEmail(User $user): bool
     {
-        if (!$user->hasPermissionTo('user:change_email')) {
+        if (! $user->hasPermissionTo('user:change_email')) {
             return false;
         }
 

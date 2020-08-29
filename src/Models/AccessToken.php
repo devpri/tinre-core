@@ -26,7 +26,7 @@ class AccessToken extends Model
     protected $hidden = [
         'token',
     ];
-    
+
     /**
      * The attributes that should be cast.
      *
@@ -36,7 +36,7 @@ class AccessToken extends Model
         'permissions' => 'array',
         'last_used_at' => 'datetime',
     ];
-    
+
     public function user()
     {
         return $this->belongsTo('Devpri\Tinre\Models\User');
