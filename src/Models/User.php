@@ -4,13 +4,15 @@ namespace Devpri\Tinre\Models;
 
 use Devpri\Tinre\Notifications\ResetPasswordNotification;
 use Devpri\Tinre\Traits\AuthorizedActions;
+use Devpri\Tinre\Traits\HasApiTokens;
+use Devpri\Tinre\Traits\HasPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, AuthorizedActions;
+    use Notifiable, AuthorizedActions, HasPermissions, HasApiTokens;
 
     protected $actions = ['viewAny', 'view', 'create', 'update', 'updateOwn', 'changeEmail', 'delete'];
 
@@ -51,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-
+    
     public function urls()
     {
         return $this->hasMany('Devpri\Tinre\Models\Url');

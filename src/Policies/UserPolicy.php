@@ -12,7 +12,7 @@ class UserPolicy
 
     public function viewAny(User $user): bool
     {
-        if (in_array($user->role, ['administrator'])) {
+        if ($user->hasPermissionTo('user:view:any')) {
             return true;
         }
 
@@ -21,7 +21,7 @@ class UserPolicy
 
     public function view(User $user, User $userModel): bool
     {
-        if (in_array($user->role, ['administrator'])) {
+        if ($user->hasPermissionTo('user:view:any')) {
             return true;
         }
 
@@ -30,7 +30,7 @@ class UserPolicy
 
     public function create(User $user): bool
     {
-        if (in_array($user->role, ['administrator'])) {
+        if ($user->hasPermissionTo('user:create')) {
             return true;
         }
 
@@ -43,7 +43,7 @@ class UserPolicy
             return false;
         }
 
-        if (in_array($user->role, ['administrator'])) {
+        if ($user->hasPermissionTo('user:update:any')) {
             return true;
         }
 
@@ -52,6 +52,10 @@ class UserPolicy
 
     public function updateOwn(User $user, User $userModel): bool
     {
+        if (!$user->hasPermissionTo('user:update')) {
+            return false;
+        }
+        
         if ($user->id === $userModel->id) {
             return true;
         }
@@ -61,6 +65,10 @@ class UserPolicy
 
     public function changeEmail(User $user): bool
     {
+        if (!$user->hasPermissionTo('user:change_email')) {
+            return false;
+        }
+
         if (Route::has('email.change')) {
             return true;
         }
@@ -74,7 +82,7 @@ class UserPolicy
             return false;
         }
 
-        if (in_array($user->role, ['administrator'])) {
+        if ($user->hasPermissionTo('user:delete:any')) {
             return true;
         }
 

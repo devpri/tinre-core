@@ -45,7 +45,7 @@
     </div>
 
     <script>
-        window.config = @json(\Devpri\Tinre\Tinre::config());
+        window.config = @json(\Devpri\Tinre\Tinre::addDashboardConfig()->addUserToConfig(request())->config());
         window.translations = @json(\Devpri\Tinre\Tinre::translations());
         window.messages = @json(\Devpri\Tinre\Tinre::messages(session()));
     </script>

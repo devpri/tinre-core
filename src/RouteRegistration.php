@@ -17,6 +17,11 @@ class RouteRegistration
             ->prefix('/web')
             ->group(__DIR__.'/../routes/web.php');
 
+        Route::middleware('api')
+            ->namespace('Devpri\Tinre\Http\Controllers\Api\V1')
+            ->prefix('/api/v1')
+            ->group(__DIR__.'/../routes/api/v1.php');
+
         Route::middleware(['web', 'auth'])
             ->prefix(Tinre::dashboardPath())
             ->get('{view?}', 'Devpri\Tinre\Http\Controllers\DashboardController@show')

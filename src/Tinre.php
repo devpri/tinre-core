@@ -36,6 +36,29 @@ class Tinre
         return new static;
     }
 
+    public static function addDashboardConfig()
+    {
+        static::addToConfig([
+            'app_url' => rtrim(config('app.url', null), '/').'/',
+            'dashboard_path' => static::dashboardPath(),
+            'timezone' => config('app.timezone', 'UTC'),
+            'date_format' => config('tinre.date_format', 'MM/DD/YYYY, h:mm:ss a'),
+            'roles' => config('tinre.roles', []),
+        ]);
+
+        return new static;
+    }
+
+    public static function addUserToConfig($request): Tinre
+    {
+        static::addToConfig([
+            'user_permissions' => $request->user()->permissions(),
+            'user_api_permissions' => $request->user()->apiPermissions(),
+        ]);
+
+        return new static;
+    }
+
     public static function styles(): array
     {
         return static::$styles;

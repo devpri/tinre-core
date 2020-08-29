@@ -30,6 +30,10 @@ class StatsController extends Controller
             abort(401);
         }
 
+        if (!$user->hasPermissionTo('stats:view')) {
+            abort(401);
+        }
+
         $data = $this->statsService->getClicks($id, $request->date);
 
         return response()->json(['data' => $data]);
@@ -46,6 +50,10 @@ class StatsController extends Controller
         $url = Url::where('id', $id)->firstOrFail();
 
         if ($user->cant('view', $url)) {
+            abort(401);
+        }
+        
+        if (!$user->hasPermissionTo('stats:view')) {
             abort(401);
         }
 

@@ -12,7 +12,7 @@ class UrlPolicy
 
     public function viewAny(User $user): bool
     {
-        if (in_array($user->role, ['editor', 'administrator'])) {
+        if ($user->hasPermissionTo('url:view:any')) {
             return true;
         }
 
@@ -25,7 +25,7 @@ class UrlPolicy
             return true;
         }
 
-        if (in_array($user->role, ['editor', 'administrator'])) {
+        if ($user->hasPermissionTo('url:view:any')) {
             return true;
         }
 
@@ -43,7 +43,7 @@ class UrlPolicy
             return true;
         }
 
-        if (in_array($user->role, ['editor', 'administrator'])) {
+        if ($user->hasPermissionTo('url:update:any')) {
             return true;
         }
 
@@ -56,7 +56,7 @@ class UrlPolicy
             return true;
         }
 
-        if (in_array($user->role, ['editor', 'administrator'])) {
+        if ($user->hasPermissionTo('url:delete:any')) {
             return true;
         }
 

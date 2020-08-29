@@ -2,6 +2,9 @@
 
 namespace Devpri\Tinre;
 
+use Devpri\Tinre\Guards\TokenGuard;
+use Illuminate\Auth\RequestGuard;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,8 +39,6 @@ class TinreServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->registerConfigVariables();
-
         $this->listenEvents();
 
         // Publishing is only necessary when using the CLI.
@@ -54,6 +55,8 @@ class TinreServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/tinre.php', 'tinre');
+
+        $this->registerTokenGuard();
 
         Tinre::addTranslation(
             resource_path('lang/vendor/tinre/'.app()->getLocale().'.json')
@@ -138,14 +141,23 @@ class TinreServiceProvider extends ServiceProvider
         ], 'tinre-lang');
     }
 
-    protected function registerConfigVariables()
+    protected function registerTokenGuard()
+    {        
+        Auth::resolved(function ($auth) {
+            $auth->extend('token', function ($app, $name, array $config) {
+                return tap($this->makeTokenGuard(), function ($guard) {
+                    $this->app->refresh('request', $guard, 'setRequest');
+                });
+            });
+        });
+    }
+    
+    protected function makeTokenGuard()
     {
-        Tinre::addToConfig([
-            'app_url' => rtrim(config('app.url', null), '/').'/',
-            'dashboard_path' => Tinre::dashboardPath(),
-            'timezone' => config('app.timezone', 'UTC'),
-            'date_format' => config('tinre.date_format', 'MM/DD/YYYY, h:mm:ss a'),
-            'roles' => config('tinre.roles', []),
-        ]);
+        return new RequestGuard(function ($request) {
+            return (new TokenGuard(
+                $request
+            ))->user();
+        }, $this->app['request']);
     }
 }
