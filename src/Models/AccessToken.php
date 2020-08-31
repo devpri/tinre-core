@@ -16,7 +16,7 @@ class AccessToken extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'token'];
+    protected $fillable = ['name', 'token', 'permissions'];
 
     /**
      * The attributes that should be hidden for serialization.

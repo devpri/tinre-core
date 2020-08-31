@@ -53,6 +53,7 @@ class Tinre
     {
         static::addToConfig([
             'user_permissions' => $request->user()->permissions(),
+            'user_api_access' => $request->user()->hasApiAccess(),
             'user_api_permissions' => $request->user()->apiPermissions(),
         ]);
 

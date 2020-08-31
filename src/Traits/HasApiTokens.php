@@ -13,13 +13,14 @@ trait HasApiTokens
         return $this->hasMany('Devpri\Tinre\Models\AccessToken');
     }
 
-    public function createToken(string $name)
+    public function createToken(string $name, $permissions = [])
     {
         $plainTextToken = Str::random(100);
 
         $token = $this->tokens()->create([
             'name' => $name,
             'token' => hash('sha256', $plainTextToken),
+            'permissions' => $permissions,
         ]);
 
         $token->plain_text_token = $plainTextToken;
@@ -32,5 +33,15 @@ trait HasApiTokens
         $this->accessToken = $accessToken;
 
         return $this;
+    }
+
+    public function hasApiAccess()
+    {
+        if(in_array($this->role, config('tinre.api_roles', []))) {
+            return true;
+        }
+        
+        return false;
+
     }
 }

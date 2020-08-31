@@ -17,6 +17,13 @@
                     </router-link>
                 </li>
             @endif
+            @if(Auth::user() && Auth::user()->hasAnyPermission(['access_token:view', 'access_token:view:any']))
+                <li>
+                    <router-link :to="{ name: 'access-tokens.index' }" @click.native="$refs.menu.hide()" class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap w-40">
+                        {{ __('Access Tokens') }}
+                    </router-link>
+                </li>
+            @endif
             <li>
                 <router-link :to="{ name: 'profile' }" @click.native="$refs.menu.hide()" class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap w-40">
                     {{ __('Profile') }}

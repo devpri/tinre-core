@@ -15,6 +15,14 @@ return [
         'administrator',
     ],
 
+    'default_role' => 'user',
+
+    'api_roles' => [
+        'user',
+        'editor',
+        'administrator',
+    ],
+
     'permissions' => [
         'url:view',
         'url:create',
@@ -85,8 +93,6 @@ return [
         'url:delete:any',
         'stats:view',
     ],
-
-    'default_role' => 'user',
 
     'default_path_length' => 6,
 

@@ -24,7 +24,7 @@ trait HasPermissions
         $permissions = config("tinre.role_permissions.{$this->role}");
 
         if (in_array('*', $permissions)) {
-            $permissions = config('tinre.permissions');
+            $permissions = config('tinre.api_permissions');
         }
 
         return array_intersect($permissions, config('tinre.api_permissions'));
@@ -39,10 +39,6 @@ trait HasPermissions
         }
 
         $apiPermissions = $this->apiPermissions();
-
-        if (in_array('*', $apiPermissions)) {
-            return $apiPermissions;
-        }
 
         return array_intersect($apiPermissions, $apiPermissions);
     }

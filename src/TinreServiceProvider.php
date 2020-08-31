@@ -18,6 +18,7 @@ class TinreServiceProvider extends ServiceProvider
     protected $policies = [
         'Devpri\Tinre\Models\User' => 'Devpri\Tinre\Policies\UserPolicy',
         'Devpri\Tinre\Models\Url' => 'Devpri\Tinre\Policies\UrlPolicy',
+        'Devpri\Tinre\Models\AccessToken' => 'Devpri\Tinre\Policies\AccessTokenPolicy',
     ];
 
     /**
