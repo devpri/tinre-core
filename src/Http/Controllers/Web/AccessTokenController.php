@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class AccessTokenController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = $request->user();
@@ -19,7 +18,7 @@ class AccessTokenController extends Controller
         if ($user->cant('viewAny', AccessToken::class)) {
             $query->where('user_id', $user->id);
         }
-        
+
         $accessTokens = $query->orderBy('created_at', 'desc')->paginate(20);
 
         return AccessTokenResource::collection($accessTokens)->additional(['authorized_actions' => (new AccessToken)->authorizedActions()]);
@@ -35,16 +34,16 @@ class AccessTokenController extends Controller
             abort(401);
         }
 
-        return (new AccessTokenResource($accessToken));
+        return new AccessTokenResource($accessToken);
     }
 
     public function create(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'permissions' => ['nullable', 'array']
+            'permissions' => ['nullable', 'array'],
         ]);
-        
+
         $user = $request->user();
 
         if ($user->cant('create', AccessToken::class)) {
@@ -62,21 +61,21 @@ class AccessTokenController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'permissions' => ['nullable', 'array']
+            'permissions' => ['nullable', 'array'],
         ]);
-        
+
         $user = $request->user();
-        
+
         $accessToken = AccessToken::where('id', $id)->firstOrFail();
-        
+
         if ($user->cant('update', $accessToken)) {
             abort(401);
         }
 
-        if($request->permissions) {
+        if ($request->permissions) {
             $request->permissions = array_intersect(config('tinre.api_permissions', []), $request->permissions);
         }
-        
+
         $permissions = $request->permissions ? array_intersect($user->apiPermissions(), $request->permissions) : null;
 
         $accessToken->update([

@@ -25,11 +25,11 @@ class AccessTokenPolicy
             return true;
         }
 
-        if (!$user->hasPermissionTo('access_token:view')) {
+        if (! $user->hasPermissionTo('access_token:view')) {
             return false;
         }
-        
-        if($user->id === $accessToken->user_id) {
+
+        if ($user->id === $accessToken->user_id) {
             return true;
         }
 
@@ -50,11 +50,11 @@ class AccessTokenPolicy
         if ($user->hasPermissionTo('access_token:update:any')) {
             return true;
         }
-        
-        if (!$user->hasPermissionTo('access_token:update')) {
+
+        if (! $user->hasPermissionTo('access_token:update')) {
             return false;
         }
-        
+
         if ($user->id === $accessToken->user_id) {
             return true;
         }
@@ -67,11 +67,11 @@ class AccessTokenPolicy
         if ($user->hasPermissionTo('access_token:delete:any')) {
             return true;
         }
-        
-        if (!$user->hasPermissionTo('access_token:delete')) {
+
+        if (! $user->hasPermissionTo('access_token:delete')) {
             return false;
         }
-        
+
         if ($user->id === $accessToken->id) {
             return true;
         }

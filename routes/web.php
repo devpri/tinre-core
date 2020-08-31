@@ -15,7 +15,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('urls/{path}', 'UrlController@show');
     Route::post('urls/{id}', 'UrlController@update');
     Route::delete('urls/{id}', 'UrlController@delete');
-    
+
     Route::get('stats/{id}/clicks', 'StatsController@clicks');
     Route::get('stats/{id}/{column}', 'StatsController@data');
 

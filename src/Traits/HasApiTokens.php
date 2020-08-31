@@ -37,11 +37,10 @@ trait HasApiTokens
 
     public function hasApiAccess()
     {
-        if(in_array($this->role, config('tinre.api_roles', []))) {
+        if (in_array($this->role, config('tinre.api_roles', []))) {
             return true;
         }
-        
-        return false;
 
+        return false;
     }
 }
