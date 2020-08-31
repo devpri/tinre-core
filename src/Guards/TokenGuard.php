@@ -25,10 +25,10 @@ class TokenGuard
 
             $user = $accessToken->user;
 
-            if(!$user->hasApiAccess()) {
+            if (! $user->hasApiAccess()) {
                 return;
             }
-            
+
             return $user->withAccessToken(
                 tap($accessToken->forceFill(['last_used_at' => now()]))->save()
             );
