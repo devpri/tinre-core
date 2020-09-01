@@ -22,19 +22,19 @@ class StatsController extends Controller
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
         ]);
-        
+
         $user = $request->user();
 
         $url = Url::where('id', $id)->firstOrFail();
-        
+
         if ($user->cant('view', $url)) {
             abort(401);
         }
-        
+
         if (! $user->hasPermissionTo('stats:view')) {
             abort(401);
         }
-        
+
         $data = $this->statsService->getClicks($id, [$request->start_date, $request->end_date]);
 
         return response()->json(['data' => $data]);
