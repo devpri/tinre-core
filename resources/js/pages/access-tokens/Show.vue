@@ -49,6 +49,24 @@
               <div class="w-full lg:w-1/2">{{ __('Name') }}</div>
               <div class="w-full lg:w-1/2">{{ token.name }}</div>
             </div>
+            <div v-if="token.user" class="list-item flex flex-wrap">
+              <div class="w-full lg:w-1/2">{{ __('User') }}</div>
+              <div class="w-full lg:w-1/2">
+                <a
+                  v-if="token.user.authorized_actions.includes('view')"
+                  class="text-sm cursor-pointer"
+                  @click="
+                    $router.push({
+                      name: 'users.show',
+                      params: { id: token.user.id },
+                    })
+                  "
+                >
+                  {{ token.user.name }}
+                </a>
+                <span class="text-sm" v-else>{{ token.user.name }} </span>
+              </div>
+            </div>
             <div class="list-item flex flex-wrap">
               <div class="w-full lg:w-1/2">{{ __('Permissions') }}</div>
               <div class="w-full lg:w-1/2">

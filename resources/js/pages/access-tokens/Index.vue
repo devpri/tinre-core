@@ -32,11 +32,30 @@
               :key="item.id"
             >
               <div class="flex-grow px-2">
-                <p
-                  class="cursor-pointer font-bold"
-                  @click="$router.push(`/access-tokens/${item.id}`)"
-                >
-                  {{ __(item.name) }}
+                <p>
+                  <span
+                    class="cursor-pointer font-bold"
+                    @click="$router.push(`/access-tokens/${item.id}`)"
+                  >
+                    {{ __(item.name) }}</span
+                  >
+                  <a
+                    v-if="
+                      item.user && item.user.authorized_actions.includes('view')
+                    "
+                    class="text-sm cursor-pointer"
+                    @click="
+                      $router.push({
+                        name: 'users.show',
+                        params: { id: item.user.id },
+                      })
+                    "
+                  >
+                    {{ __('by ') }} {{ item.user.name }}
+                  </a>
+                  <span class="text-sm" v-else-if="item.user"
+                    >{{ __('by ') }} {{ item.user.name }}
+                  </span>
                 </p>
                 <p class="text-sm">
                   {{ __('Created At: ') }}{{ item.created_at | date }}

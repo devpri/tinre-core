@@ -9,14 +9,23 @@ use Illuminate\Http\Request;
 
 class AccessTokenController extends Controller
 {
+
     public function index(Request $request)
     {
         $user = $request->user();
+
+        if (! $user->hasAnyPermission(['access_token:view', 'access_token:view:any'])) {
+            abort(401);
+        }
 
         $query = AccessToken::query();
 
         if ($user->cant('viewAny', AccessToken::class)) {
             $query->where('user_id', $user->id);
+        }
+
+        if ($user->can('viewAny', AccessToken::class)) {
+            $query->with('user');
         }
 
         $accessTokens = $query->orderBy('created_at', 'desc')->paginate(20);
@@ -34,7 +43,11 @@ class AccessTokenController extends Controller
             abort(401);
         }
 
-        return new AccessTokenResource($accessToken);
+        if ($user->can('viewAny', AccessToken::class)) {
+            $accessToken->load('user');
+        }
+
+        return (new AccessTokenResource($accessToken));
     }
 
     public function create(Request $request)
