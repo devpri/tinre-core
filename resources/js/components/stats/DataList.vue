@@ -67,6 +67,10 @@ export default {
 
   watch: {
     date() {
+      if (!this.date || !this.date[0] || !this.date[1]) {
+        return
+      }
+
       this.page = 1
 
       this.getData()
@@ -87,7 +91,11 @@ export default {
 
       axios
         .get(`stats/${this.url.id}/${this.column}`, {
-          params: { date: this.date, page: this.page },
+          params: {
+            start_date: this.date[0],
+            end_date: this.date[1],
+            page: this.page,
+          },
         })
         .then((response) => {
           this.data = response.data

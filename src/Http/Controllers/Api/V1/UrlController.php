@@ -21,7 +21,8 @@ class UrlController extends Controller
     {
         $request->validate([
             'search' => ['nullable', 'string'],
-            'date' => ['nullable', 'array'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
             'active' => ['nullable', 'boolean'],
             'sort_by' => ['nullable', 'in:created_at,updated_at,total_clicks'],

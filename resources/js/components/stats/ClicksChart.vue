@@ -36,6 +36,10 @@ export default {
 
   watch: {
     date() {
+      if (!this.date || !this.date[0] || !this.date[1]) {
+        return
+      }
+
       this.getClicks()
     },
   },
@@ -44,7 +48,7 @@ export default {
     getClicks() {
       axios
         .get(`stats/${this.url.id}/clicks`, {
-          params: { date: this.date },
+          params: { start_date: this.date[0], end_date: this.date[1] },
         })
         .then((response) => {
           const datasetData = response.data.data.map((item) => ({

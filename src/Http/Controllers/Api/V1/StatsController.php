@@ -35,7 +35,7 @@ class StatsController extends Controller
             abort(401);
         }
 
-        $data = $this->statsService->getClicks($id, [$request->start_date, $request->end_date]);
+        $data = $this->statsService->getClicks($id, $request->start_date, $request->end_date);
 
         return response()->json(['data' => $data]);
     }
@@ -59,7 +59,7 @@ class StatsController extends Controller
             abort(401);
         }
 
-        $data = $this->statsService->getData($column, $id, [$request->start_date, $request->end_date]);
+        $data = $this->statsService->getData($column, $id, $request->start_date, $request->end_date);
 
         return response()->json($data);
     }

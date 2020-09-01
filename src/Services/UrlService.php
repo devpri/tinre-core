@@ -15,7 +15,8 @@ class UrlService
     public function index($data, $user)
     {
         $search = $data['search'] ?? null;
-        $date = $data['date'] ?? null;
+        $startDate = $data['start_date'] ?? null;
+        $endDate = $data['end_date'] ?? null;
         $limit = $data['limit'] ?? 25;
         $active = $data['active'] ?? null;
         $sortBy = $data['sort_by'] ?? 'created_at';
@@ -38,8 +39,8 @@ class UrlService
             });
         }
 
-        if ($date) {
-            $query->whereBetween('created_at', $date);
+        if ($startDate & $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
         if (isset($active)) {

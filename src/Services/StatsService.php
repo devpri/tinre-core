@@ -17,12 +17,12 @@ class StatsService
         $this->driver = config("database.connections.{$connection}.driver");
     }
 
-    public function getClicks(int $urlId, array $date): array
+    public function getClicks(int $urlId, string $startDate, string $endDate): array
     {
         $dates = DB::table('clicks')
-            ->select(DB::raw("{$this->getDateFromat($date)} as label"), DB::raw('count(*) as value'))
+            ->select(DB::raw("{$this->getDateFromat($startDate, $endDate)} as label"), DB::raw('count(*) as value'))
             ->where('url_id', $urlId)
-            ->whereBetween('created_at', $date)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('label')
             ->get()
             ->toArray();
@@ -30,7 +30,7 @@ class StatsService
         return $dates;
     }
 
-    public function getData(string $column, int $urlId, array $date): object
+    public function getData(string $column, int $urlId, string $startDate, string $endDate): object
     {
         if (! in_array($column, ['country', 'region', 'city', 'device_type', 'device_brand', 'device_model', 'os', 'browser', 'referer', 'referer_host'])) {
             throw ValidationException::withMessages([
@@ -42,7 +42,7 @@ class StatsService
 
         $data = DB::table('clicks')->where('url_id', $urlId)
             ->select(DB::raw("{$dbFunction}({$column}, 'UNK') as label"), DB::raw('count(*) as value'))
-            ->whereBetween('created_at', $date)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('label')
             ->orderBy('value', 'DESC')
             ->paginate(10);
@@ -50,10 +50,10 @@ class StatsService
         return $data;
     }
 
-    protected function getDateFromat(array $date): string
+    protected function getDateFromat(string $startDate, string $endDate): string
     {
-        $startDate = Carbon::parse($date[0]);
-        $endDate = Carbon::parse($date[1]);
+        $startDate = Carbon::parse($startDate);
+        $endDate = Carbon::parse($endDate);
 
         $diff = $startDate->diffInDays($endDate);
 

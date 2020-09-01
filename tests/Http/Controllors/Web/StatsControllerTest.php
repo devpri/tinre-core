@@ -23,7 +23,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -44,7 +45,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(401);
     }
 
@@ -64,7 +66,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -85,7 +88,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -104,7 +108,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -125,7 +130,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(401);
     }
 
@@ -145,7 +151,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -166,7 +173,8 @@ class StatsControllerTest extends TestCase
             ->assertRedirect($url->long_url);
 
         $this->json('GET', "/web/stats/{$url->id}/country", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -181,7 +189,8 @@ class StatsControllerTest extends TestCase
         ]);
 
         $this->json('GET', "/web/stats/{$url->id}/test", [
-            'date' => [Carbon::now()->subDay(), Carbon::now()->addDay()],
+            'start_date' => Carbon::now()->subDay(),
+            'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(422);
     }
 }

@@ -28,7 +28,7 @@
                     <p class="mb-1">{{ __('Date') }}</p>
                     <date-picker
                       type="datetime"
-                      v-model="params.date"
+                      v-model="date"
                       value-type="format"
                       :placeholder="__('Date')"
                       :shortcuts="shortcuts"
@@ -193,12 +193,14 @@ export default {
     params: {
       page: 1,
       search: null,
-      date: null,
+      start_date: null,
+      end_date: null,
       active: null,
       sort_by: 'created_at',
       sort_direction: 'desc',
       limit: 25,
     },
+    date: null,
     timer: null,
     loading: true,
     autoHideFilter: true,
@@ -207,7 +209,7 @@ export default {
 
   computed: {
     filter() {
-      return `${this.params.date}|${this.params.active}|${this.params.limit}`
+      return `${this.date}|${this.params.active}|${this.params.limit}`
     },
 
     sort() {
@@ -223,8 +225,12 @@ export default {
     filter() {
       this.params.page = 1
 
-      if (this.params.date && (!this.params.date[0] || !this.params.date[1])) {
-        this.params.date = null
+      if (this.date && this.date[0] && this.date[1]) {
+        this.params.start_date = this.date[0]
+        this.params.end_date = this.date[1]
+      } else {
+        this.params.start_date = null
+        this.params.end_date = null
       }
 
       this.getUrls()

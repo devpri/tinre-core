@@ -49,11 +49,13 @@ class UrlControllerTest extends TestCase
         $this->actingAs($user);
 
         factory(Url::class)->create(['user_id' => $user->id, 'path' => 'test10001']);
-        factory(Url::class, 5)->create(['user_id' => $user->id]);
+        factory(Url::class, 5)->create(['user_id' => $user->id, 'created_at' => Carbon::today()->subDays(10)]);
 
         $this->json('GET', '/web/urls', [
-            'date' => [Carbon::today()->subDays(2), Carbon::today()->addDays(2)],
+            'start_date' => Carbon::today()->subDays(2),
+            'end_date' => Carbon::today()->addDays(2),
         ])->assertStatus(200)
+            ->assertJsonCount(1, 'data')
             ->assertJsonFragment([
                 'path' => 'test10001',
             ]);

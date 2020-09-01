@@ -19,7 +19,8 @@ class StatsController extends Controller
     public function clicks(Request $request, $id)
     {
         $request->validate([
-            'date' => ['required', 'array', 'min:2', 'max:2'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date'],
         ]);
 
         $user = $request->user();
@@ -34,7 +35,7 @@ class StatsController extends Controller
             abort(401);
         }
 
-        $data = $this->statsService->getClicks($id, $request->date);
+        $data = $this->statsService->getClicks($id, $request->start_date, $request->end_date);
 
         return response()->json(['data' => $data]);
     }
@@ -42,7 +43,8 @@ class StatsController extends Controller
     public function data(Request $request, $id, $column)
     {
         $request->validate([
-            'date' => ['required', 'array', 'min:2', 'max:2'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date'],
         ]);
 
         $user = $request->user();
@@ -57,7 +59,7 @@ class StatsController extends Controller
             abort(401);
         }
 
-        $data = $this->statsService->getData($column, $id, $request->date);
+        $data = $this->statsService->getData($column, $id, $request->start_date, $request->end_date);
 
         return response()->json($data);
     }
