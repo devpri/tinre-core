@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class AccessTokenController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = $request->user();
@@ -47,7 +46,7 @@ class AccessTokenController extends Controller
             $accessToken->load('user');
         }
 
-        return (new AccessTokenResource($accessToken));
+        return new AccessTokenResource($accessToken);
     }
 
     public function create(Request $request)
