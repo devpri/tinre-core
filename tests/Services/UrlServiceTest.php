@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class UrlServiceTest extends TestCase
 {
     protected $urlService;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -27,7 +27,7 @@ class UrlServiceTest extends TestCase
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
-        
+
         $config = $app->get('config');
 
         $config->set('tinre.restricted_domains', ['devpri.com']);
@@ -79,7 +79,7 @@ class UrlServiceTest extends TestCase
         factory(Url::class, 2)->create(['user_id' => $secondUser->id]);
 
         $urls = $this->urlService->index([], $user);
-        
+
         $this->assertCount(5, $urls);
     }
 
@@ -106,7 +106,7 @@ class UrlServiceTest extends TestCase
 
         $this->assertCount(5, $urls);
     }
-    
+
     public function test_can_search_url()
     {
         $user = factory(User::class)->states('user')->create();
@@ -118,7 +118,7 @@ class UrlServiceTest extends TestCase
 
         $this->assertCount(1, $urls);
     }
-    
+
     public function test_can_filter_urls_by_date()
     {
         $user = factory(User::class)->states('user')->create();
@@ -154,9 +154,9 @@ class UrlServiceTest extends TestCase
 
         $this->assertTrue($urls[0]->id === $url->id);
     }
-    
+
     public function test_cant_shorten_invalid_url()
-    {                
+    {
         $this->expectException(ValidationException::class);
 
         $longUrl = 'wrong';
@@ -166,16 +166,16 @@ class UrlServiceTest extends TestCase
     }
 
     public function test_cant_use_restricted_domain()
-    {                
+    {
         $this->expectException(ValidationException::class);
 
         $longUrl = 'https://devpri.com';
 
         $this->urlService->create($longUrl);
     }
-    
+
     public function test_cant_shorten_with_invalid_path()
-    {                
+    {
         $this->expectException(ValidationException::class);
 
         $longUrl = 'https://google.com';
@@ -185,7 +185,7 @@ class UrlServiceTest extends TestCase
     }
 
     public function test_cant_shorten_with_restricted_path()
-    {                
+    {
         $this->expectException(ValidationException::class);
 
         $longUrl = 'https://google.com';
@@ -193,9 +193,9 @@ class UrlServiceTest extends TestCase
 
         $this->urlService->create($longUrl, $path);
     }
-    
+
     public function test_cant_shorten_with_duplicate_path()
-    {                
+    {
         $this->expectException(ValidationException::class);
 
         $longUrl = 'http://google.com';
@@ -204,37 +204,37 @@ class UrlServiceTest extends TestCase
         $this->urlService->create($longUrl, $path);
         $this->urlService->create($longUrl, $path);
     }
-    
+
     public function test_can_shorten_without_user()
-    {                
+    {
         $longUrl = 'http://google.com';
-        
+
         $url = $this->urlService->create($longUrl);
-    
+
         $this->assertTrue($url->long_url === $longUrl);
         $this->assertTrue($url->user_id === null);
     }
 
     public function test_can_shorten_without_user_with_custom_path()
-    {                
+    {
         $longUrl = 'http://google.com';
         $path = 'test-path';
 
         $url = $this->urlService->create($longUrl, $path);
-    
+
         $this->assertTrue($url->long_url === $longUrl);
         $this->assertTrue($url->path === $path);
         $this->assertTrue($url->user_id === null);
     }
 
     public function test_can_shorten_with_user_with_custom_path()
-    {                
+    {
         $longUrl = 'http://google.com';
         $path = 'test-path';
         $user = factory(User::class)->states('user')->create();
 
         $url = $this->urlService->create($longUrl, $path, $user);
-    
+
         $this->assertTrue($url->long_url === $longUrl);
         $this->assertTrue($url->path === $path);
         $this->assertTrue($url->user_id === $user->id);
@@ -248,7 +248,7 @@ class UrlServiceTest extends TestCase
 
         $longUrl = 'http://google.com';
         $path = 'test10234444';
-        
+
         $updatedUrl = $this->urlService->update($url->id, 0, $longUrl, $path, $user);
 
         $this->assertTrue($updatedUrl->long_url === $longUrl);
@@ -265,10 +265,10 @@ class UrlServiceTest extends TestCase
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
         $longUrl = 'google';
-        
+
         $this->urlService->update($url->id, $url->active, $longUrl, $url->path, $user);
     }
-    
+
     public function test_cant_update_with_restricted_url()
     {
         $this->expectException(ValidationException::class);
@@ -279,7 +279,7 @@ class UrlServiceTest extends TestCase
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
         $longUrl = 'devpri.com';
-        
+
         $this->urlService->update($url->id, $url->active, $longUrl, $url->path, $user);
     }
 
@@ -293,10 +293,10 @@ class UrlServiceTest extends TestCase
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
         $path = 'g%o&o+gle';
-        
+
         $this->urlService->update($url->id, $url->active, $url->long_url, $path, $user);
     }
-    
+
     public function test_cant_update_other_user_url()
     {
         $this->expectException(HttpException::class);
@@ -308,7 +308,7 @@ class UrlServiceTest extends TestCase
 
         $longUrl = 'http://google.com';
         $path = 'test10234444';
-        
+
         $this->urlService->update($url->id, 0, $longUrl, $path, $user);
     }
 
@@ -321,7 +321,7 @@ class UrlServiceTest extends TestCase
 
         $longUrl = 'http://google.com';
         $path = 'test10234444';
-        
+
         $updatedUrl = $this->urlService->update($url->id, 0, $longUrl, $path, $secondUser);
 
         $this->assertTrue($updatedUrl->long_url === $longUrl);
@@ -337,7 +337,7 @@ class UrlServiceTest extends TestCase
 
         $longUrl = 'http://google.com';
         $path = 'test10234444';
-        
+
         $updatedUrl = $this->urlService->update($url->id, 0, $longUrl, $path, $secondUser);
 
         $this->assertTrue($updatedUrl->long_url === $longUrl);

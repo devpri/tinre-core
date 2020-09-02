@@ -95,7 +95,7 @@ class UrlControllerTest extends TestCase
     {
         $user = factory(User::class)->states('user')->create();
         $this->actingAs($user);
-        
+
         $data = [
             'long_url' => 'https://google.com',
         ];
@@ -135,12 +135,12 @@ class UrlControllerTest extends TestCase
             'path' => 'test1233343434',
             'long_url' => 'https://www.google.com',
         ];
-        
+
         $this->json('post', "/web/urls/{$url->id}", $newData)
             ->assertStatus(200)
             ->assertJsonFragment($newData);
     }
-    
+
     public function test_user_can_delete_own_url()
     {
         $user = factory(User::class)->states('user')->create();

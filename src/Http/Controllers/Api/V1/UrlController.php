@@ -30,8 +30,8 @@ class UrlController extends Controller
         ]);
 
         $user = $request->user();
-        
-        if(!$user->hasAnyPermission(['url:view', 'url:view:any'])) {
+
+        if (! $user->hasAnyPermission(['url:view', 'url:view:any'])) {
             abort(401);
         }
 

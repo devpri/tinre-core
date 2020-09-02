@@ -19,7 +19,7 @@ class UrlControllerTest extends TestCase
         $user = factory(User::class)->states('user')->create();
         $accessToken = $user->createToken('test', ['url:view']);
         $this->actingAs($user->withAccessToken($accessToken), 'api');
-        
+
         factory(Url::class, 5)->create();
         factory(Url::class, 5)->create(['user_id' => $user->id]);
 
@@ -102,7 +102,7 @@ class UrlControllerTest extends TestCase
         $user = factory(User::class)->states('editor')->create();
         $accessToken = $user->createToken('test', ['url:create']);
         $this->actingAs($user->withAccessToken($accessToken), 'api');
-        
+
         $data = [
             'long_url' => 'https://google.com',
         ];
@@ -130,7 +130,7 @@ class UrlControllerTest extends TestCase
             'path' => 'test1233343434',
             'long_url' => 'https://www.google.com',
         ];
-        
+
         $this->json('post', "/api/v1/urls/{$url->id}", $newData)
             ->assertStatus(200)
             ->assertJsonFragment($newData);
@@ -153,7 +153,7 @@ class UrlControllerTest extends TestCase
         $user = factory(User::class)->states('user')->create();
         $accessToken = $user->createToken('test', ['url:delete']);
         $this->actingAs($user->withAccessToken($accessToken), 'api');
-        
+
         $secondUser = factory(User::class)->states('user')->create();
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
