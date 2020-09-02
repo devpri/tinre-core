@@ -1,6 +1,6 @@
 <?php
 
-namespace Devpri\Tinre\Tests\Http\Controllers\Web;
+namespace Devpri\Tinre\Tests\Http\Controllers\Api\V1;
 
 use Devpri\Tinre\Models\Url;
 use Devpri\Tinre\Models\User;
@@ -10,18 +10,20 @@ class UrlControllerTest extends TestCase
 {
     public function test_cant_get_url()
     {
-        $this->json('GET', '/web/urls')
+        $this->json('GET', '/api/v1/urls')
             ->assertStatus(401);
     }
 
     public function test_can_get_urls()
     {
         $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
-
+        $accessToken = $user->createToken('test', ['url:view']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+        
+        factory(Url::class, 5)->create();
         factory(Url::class, 5)->create(['user_id' => $user->id]);
 
-        $this->json('GET', '/web/urls')
+        $this->json('GET', '/api/v1/urls')
             ->assertStatus(200)
             ->assertJsonCount(5, 'data');
     }
@@ -29,11 +31,12 @@ class UrlControllerTest extends TestCase
     public function test_user_can_get_own_url()
     {
         $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
+        $accessToken = $user->createToken('test', ['url:view']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $url = factory(Url::class)->create(['user_id' => $user->id]);
 
-        $this->json('GET', "/web/urls/{$url->path}")
+        $this->json('GET', "/api/v1/urls/{$url->path}")
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
@@ -45,26 +48,28 @@ class UrlControllerTest extends TestCase
     public function test_user_cant_get_other_user_url()
     {
         $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
+        $accessToken = $user->createToken('test', ['url:view']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
-        $this->json('GET', "/web/urls/{$url->path}")
+        $this->json('GET', "/api/v1/urls/{$url->path}")
             ->assertStatus(401);
     }
 
     public function test_editor_can_get_other_user_url()
     {
         $user = factory(User::class)->states('editor')->create();
-        $this->actingAs($user);
+        $accessToken = $user->createToken('test', ['url:view:any']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
-        $this->json('GET', "/web/urls/{$url->path}")
+        $this->json('GET', "/api/v1/urls/{$url->path}")
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
@@ -75,14 +80,15 @@ class UrlControllerTest extends TestCase
 
     public function test_admin_can_get_other_user_url()
     {
-        $user = factory(User::class)->states('administrator')->create();
-        $this->actingAs($user);
+        $user = factory(User::class)->states('editor')->create();
+        $accessToken = $user->createToken('test', ['url:view:any']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $secondUser = factory(User::class)->states('user')->create();
 
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
-        $this->json('GET', "/web/urls/{$url->path}")
+        $this->json('GET', "/api/v1/urls/{$url->path}")
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
@@ -93,14 +99,15 @@ class UrlControllerTest extends TestCase
 
     public function test_user_can_create_url()
     {
-        $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
+        $user = factory(User::class)->states('editor')->create();
+        $accessToken = $user->createToken('test', ['url:create']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
         
         $data = [
             'long_url' => 'https://google.com',
         ];
 
-        $this->json('POST', '/web/urls', $data)
+        $this->json('POST', '/api/v1/urls', $data)
             ->assertStatus(201)
             ->assertJson([
                 'data' => $data,
@@ -110,23 +117,11 @@ class UrlControllerTest extends TestCase
             ]);
     }
 
-    public function test_guest_can_create_url()
-    {
-        $data = [
-            'long_url' => 'https://google.com',
-        ];
-
-        $this->json('POST', '/web/urls', $data)
-            ->assertStatus(201)
-            ->assertJson([
-                'data' => $data,
-            ]);
-    }
-
     public function test_user_can_update_own_url()
     {
-        $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
+        $user = factory(User::class)->states('editor')->create();
+        $accessToken = $user->createToken('test', ['url:update']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $url = factory(Url::class)->create(['user_id' => $user->id]);
 
@@ -136,55 +131,59 @@ class UrlControllerTest extends TestCase
             'long_url' => 'https://www.google.com',
         ];
         
-        $this->json('post', "/web/urls/{$url->id}", $newData)
+        $this->json('post', "/api/v1/urls/{$url->id}", $newData)
             ->assertStatus(200)
             ->assertJsonFragment($newData);
     }
-    
+
     public function test_user_can_delete_own_url()
     {
         $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
+        $accessToken = $user->createToken('test', ['url:delete']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $url = factory(Url::class)->create(['user_id' => $user->id]);
 
-        $this->json('delete', "/web/urls/{$url->id}")
+        $this->json('delete', "/api/v1/urls/{$url->id}")
             ->assertStatus(200);
     }
 
     public function test_user_cant_delete_other_user_url()
     {
         $user = factory(User::class)->states('user')->create();
-        $this->actingAs($user);
-
+        $accessToken = $user->createToken('test', ['url:delete']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+        
         $secondUser = factory(User::class)->states('user')->create();
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
-        $this->json('delete', "/web/urls/{$url->id}")
+        $this->json('delete', "/api/v1/urls/{$url->id}")
             ->assertStatus(401);
     }
 
     public function test_editor_can_delete_other_user_url()
     {
         $user = factory(User::class)->states('editor')->create();
-        $this->actingAs($user);
+        $accessToken = $user->createToken('test', ['url:delete:any']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $secondUser = factory(User::class)->states('user')->create();
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
-        $this->json('delete', "/web/urls/{$url->id}")
+        $this->json('delete', "/api/v1/urls/{$url->id}")
             ->assertStatus(200);
     }
 
     public function test_admin_can_delete_other_user_url()
     {
         $user = factory(User::class)->states('administrator')->create();
-        $this->actingAs($user);
+        $accessToken = $user->createToken('test', ['url:delete:any']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         $secondUser = factory(User::class)->states('user')->create();
         $url = factory(Url::class)->create(['user_id' => $secondUser->id]);
 
-        $this->json('delete', "/web/urls/{$url->id}")
+        $this->json('delete', "/api/v1/urls/{$url->id}")
             ->assertStatus(200);
     }
 }

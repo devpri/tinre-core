@@ -39,7 +39,7 @@ class UrlService
             });
         }
 
-        if ($startDate & $endDate) {
+        if ($startDate && $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
@@ -50,7 +50,7 @@ class UrlService
         return $query->orderBy($sortBy, $sortDirection)->with('user')->paginate($limit);
     }
 
-    public function create($longUrl, $path, $user): Url
+    public function create($longUrl, $path = null, $user = null): Url
     {
         $this->validateUrl($longUrl);
 

@@ -30,6 +30,10 @@ class UrlController extends Controller
         ]);
 
         $user = $request->user();
+        
+        if(!$user->hasAnyPermission(['url:view', 'url:view:any'])) {
+            abort(401);
+        }
 
         $urls = $this->urlService->index($request->all(), $user);
 
