@@ -24,7 +24,7 @@ class StatsController extends Controller
         ]);
 
         $user = $request->user();
-        
+
         $url = Url::where('id', $id)->firstOrFail();
 
         if ($user->cant('view', $url)) {
