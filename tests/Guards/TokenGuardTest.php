@@ -60,7 +60,7 @@ class TokenGuardTest extends TestCase
         $user = factory(User::class)->states('user')->create();
 
         $request = Request::create('/');
-        $request->headers->set('Authorization', "Bearer wrong");
+        $request->headers->set('Authorization', 'Bearer wrong');
 
         $guard = new TokenGuard($request);
 
