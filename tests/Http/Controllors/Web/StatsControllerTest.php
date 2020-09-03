@@ -18,19 +18,19 @@ class StatsControllerTest extends TestCase
         $url = factory(Url::class)->create([
             'user_id' => $user->id,
         ]);
-        
+
         $now = Carbon::now();
 
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now,
         ]);
-        
+
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now->copy()->subDays(10),
         ]);
-        
+
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
             'start_date' => $now->copy()->subDay(),
             'end_date' => $now->copy()->addDay(),
@@ -72,12 +72,12 @@ class StatsControllerTest extends TestCase
             'url_id' => $url->id,
             'created_at' => $now,
         ]);
-        
+
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now->copy()->subDays(10),
         ]);
-        
+
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
             'start_date' => $now->copy()->subDay(),
             'end_date' => $now->copy()->addDay(),
@@ -102,12 +102,12 @@ class StatsControllerTest extends TestCase
             'url_id' => $url->id,
             'created_at' => $now,
         ]);
-        
+
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now->copy()->subDays(10),
         ]);
-        
+
         $this->json('GET', "/web/stats/{$url->id}/clicks", [
             'start_date' => $now->copy()->subDay(),
             'end_date' => $now->copy()->addDay(),
@@ -130,7 +130,7 @@ class StatsControllerTest extends TestCase
             'url_id' => $url->id,
             'created_at' => $now,
         ]);
-        
+
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now->copy()->subDays(10),
@@ -177,7 +177,7 @@ class StatsControllerTest extends TestCase
             'url_id' => $url->id,
             'created_at' => $now,
         ]);
-        
+
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now->copy()->subDays(10),
@@ -207,7 +207,7 @@ class StatsControllerTest extends TestCase
             'url_id' => $url->id,
             'created_at' => $now,
         ]);
-        
+
         factory(Click::class, 5)->create([
             'url_id' => $url->id,
             'created_at' => $now->copy()->subDays(10),
