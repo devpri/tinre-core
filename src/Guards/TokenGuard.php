@@ -25,6 +25,10 @@ class TokenGuard
 
             $user = $accessToken->user;
 
+            if (! $user->active) {
+                return;
+            }
+
             if (! $user->hasApiAccess()) {
                 return;
             }
