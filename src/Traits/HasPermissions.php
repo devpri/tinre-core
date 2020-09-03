@@ -40,7 +40,7 @@ trait HasPermissions
 
         $apiPermissions = $this->apiPermissions();
 
-        return array_intersect($apiPermissions, $apiPermissions);
+        return array_intersect($tokenPermissions, $apiPermissions);
     }
 
     public function hasPermissionTo($permission)
