@@ -65,6 +65,41 @@ class UserControllerTest extends TestCase
             ]);
     }
 
+    public function test_user_cant_create_user()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $this->actingAs($user);
+
+        $this->json('POST', "/web/users", [
+            'active' => 1,
+            'name' => 'test',
+            'email' => 'test#test.com',
+            'role' => 'user',
+            'password' => 'testpassword',
+        ])
+            ->assertStatus(401);
+    }
+
+    public function test_admin_can_create_user()
+    {
+        $user = factory(User::class)->states('administrator')->create();
+        $this->actingAs($user);
+
+        $this->json('POST', "/web/users", [
+            'active' => 1,
+            'name' => 'test',
+            'email' => 'test@test.com',
+            'role' => 'user',
+            'password' => 'testpassword',
+        ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => 'test',
+                'email' => 'test@test.com',
+                'role' => 'user',
+            ]);
+    }
+
     public function test_user_cant_update_user()
     {
         $user = factory(User::class)->states('user')->create();
