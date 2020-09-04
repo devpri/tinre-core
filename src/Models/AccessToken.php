@@ -33,6 +33,7 @@ class AccessToken extends Model
      * @var array
      */
     protected $casts = [
+        'user_id' => 'integer',
         'permissions' => 'array',
         'last_used_at' => 'datetime',
     ];

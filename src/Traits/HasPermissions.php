@@ -10,7 +10,7 @@ trait HasPermissions
             return $this->tokenPermissions($this->accessToken);
         }
 
-        $permissions = config("tinre.role_permissions.{$this->role}");
+        $permissions = config("tinre.role_permissions.{$this->role}", []);
 
         if (in_array('*', $permissions)) {
             return config('tinre.permissions');
@@ -21,7 +21,7 @@ trait HasPermissions
 
     public function apiPermissions()
     {
-        $permissions = config("tinre.role_permissions.{$this->role}");
+        $permissions = config("tinre.role_permissions.{$this->role}", []);
 
         if (in_array('*', $permissions)) {
             $permissions = config('tinre.api_permissions');

@@ -20,7 +20,7 @@ trait HasApiTokens
         $token = $this->tokens()->create([
             'name' => $name,
             'token' => hash('sha256', $plainTextToken),
-            'permissions' => $permissions,
+            'permissions' => is_array($permissions) ? array_intersect($permissions, $this->apiPermissions()) : null,
         ]);
 
         $token->plain_text_token = $plainTextToken;

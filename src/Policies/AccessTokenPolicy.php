@@ -72,7 +72,7 @@ class AccessTokenPolicy
             return false;
         }
 
-        if ($user->id === $accessToken->id) {
+        if ($user->id === $accessToken->user_id) {
             return true;
         }
 
