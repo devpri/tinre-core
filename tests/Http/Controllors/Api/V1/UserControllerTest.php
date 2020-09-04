@@ -51,9 +51,9 @@ class UserControllerTest extends TestCase
         $this->actingAs($user->withAccessToken($accessToken), 'api');
 
         factory(User::class, 10)->states('administrator')->create();
-        
+
         $this->json('GET', "/api/v1/users/{$user->id}", [
-            'search' => $user->email
+            'search' => $user->email,
         ])
             ->assertStatus(200)
             ->assertJson([
