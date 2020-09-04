@@ -35,4 +35,9 @@ jobs:
                     composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
                     
             -   name: Execute tests
-                run: vendor/bin/phpunit
+                run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            
+            -   name: Scruntinizer
+                run: |
+                    wget https://scrutinizer-ci.com/ocular.phar
+                    php ocular.phar code-coverage:upload --format=php-clover coverage.clover
