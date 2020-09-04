@@ -27,7 +27,7 @@ class AccessTokenControllerTest extends TestCase
             ->assertJsonFragment([
                 'name' => $accessToken->name,
                 'user_id' => $user->id,
-                'permissions' => ['url:view']
+                'permissions' => ['url:view'],
             ]);
     }
 
@@ -37,7 +37,7 @@ class AccessTokenControllerTest extends TestCase
         $this->actingAs($user);
 
         $accessToken = $user->createToken('test2', ['url:view', 'test']);
-        
+
         $secondUser = factory(User::class)->states('user')->create();
 
         $secondAccessToken = $secondUser->createToken('test2', ['url:view', 'url:view:any']);
@@ -48,7 +48,7 @@ class AccessTokenControllerTest extends TestCase
             ->assertJsonFragment([
                 'name' => $accessToken->name,
                 'user_id' => $user->id,
-                'permissions' => ['url:view']
+                'permissions' => ['url:view'],
             ])
             ->assertJsonFragment([
                 'name' => $secondAccessToken->name,
@@ -63,13 +63,13 @@ class AccessTokenControllerTest extends TestCase
         $this->actingAs($user);
 
         $accessToken = $user->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('GET', "/web/access-tokens/{$accessToken->id}")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name' => $accessToken->name,
                 'user_id' => $user->id,
-                'permissions' => ['url:view']
+                'permissions' => ['url:view'],
             ]);
     }
 
@@ -81,7 +81,7 @@ class AccessTokenControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $accessToken = $secondUser->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('GET', "/web/access-tokens/{$accessToken->id}")
             ->assertStatus(401);
     }
@@ -94,13 +94,13 @@ class AccessTokenControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $accessToken = $secondUser->createToken('test', ['url:view']);
-   
+
         $this->json('GET', "/web/access-tokens/{$accessToken->id}")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'name' => $accessToken->name,
                 'user_id' => $secondUser->id,
-                'permissions' => ['url:view']
+                'permissions' => ['url:view'],
             ]);
     }
 
@@ -117,7 +117,7 @@ class AccessTokenControllerTest extends TestCase
             ->assertJsonFragment([
                 'name' => 'test',
                 'user_id' => $user->id,
-                'permissions' => ['url:view']
+                'permissions' => ['url:view'],
             ]);
     }
 
@@ -127,7 +127,7 @@ class AccessTokenControllerTest extends TestCase
         $this->actingAs($user);
 
         $accessToken = $user->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('POST', "/web/access-tokens/{$accessToken->id}", [
             'name' => 'test2',
             'permissions' => ['url:update'],
@@ -136,7 +136,7 @@ class AccessTokenControllerTest extends TestCase
             ->assertJsonFragment([
                 'name' => 'test2',
                 'user_id' => $user->id,
-                'permissions' => ['url:update']
+                'permissions' => ['url:update'],
             ]);
     }
 
@@ -148,14 +148,14 @@ class AccessTokenControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $accessToken = $secondUser->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('POST', "/web/access-tokens/{$accessToken->id}", [
             'name' => 'test2',
             'permissions' => ['url:update'],
         ])
             ->assertStatus(401);
     }
-    
+
     public function test_admin_can_update_user_token()
     {
         $user = factory(User::class)->states('administrator')->create();
@@ -164,7 +164,7 @@ class AccessTokenControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $accessToken = $secondUser->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('POST', "/web/access-tokens/{$accessToken->id}", [
             'name' => 'test2',
             'permissions' => ['url:update'],
@@ -173,7 +173,7 @@ class AccessTokenControllerTest extends TestCase
             ->assertJsonFragment([
                 'name' => 'test2',
                 'user_id' => $secondUser->id,
-                'permissions' => ['url:update']
+                'permissions' => ['url:update'],
             ]);
     }
 
@@ -183,7 +183,7 @@ class AccessTokenControllerTest extends TestCase
         $this->actingAs($user);
 
         $accessToken = $user->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('delete', "/web/access-tokens/{$accessToken->id}")
             ->assertStatus(200);
 
@@ -198,11 +198,11 @@ class AccessTokenControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $accessToken = $secondUser->createToken('test', ['url:view', 'test']);
-        
+
         $this->json('delete', "/web/access-tokens/{$accessToken->id}")
             ->assertStatus(401);
     }
-    
+
     public function test_admin_can_delete_user_token()
     {
         $user = factory(User::class)->states('administrator')->create();
@@ -211,7 +211,7 @@ class AccessTokenControllerTest extends TestCase
         $secondUser = factory(User::class)->states('user')->create();
 
         $accessToken = $secondUser->createToken('test', ['url:view', 'test']);
-                
+
         $this->json('delete', "/web/access-tokens/{$accessToken->id}")
             ->assertStatus(200);
 
