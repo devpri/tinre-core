@@ -15,6 +15,7 @@ class UrlService
     public function index($data, $user)
     {
         $search = $data['search'] ?? null;
+        $userId = $data['user_id'] ?? null;
         $startDate = $data['start_date'] ?? null;
         $endDate = $data['end_date'] ?? null;
         $limit = $data['limit'] ?? 25;
@@ -24,28 +25,28 @@ class UrlService
 
         $query = Url::query();
 
-        if ($user->cant('viewAny', Url::class)) {
-            $query->where('user_id', $user->id);
-        }
+        $query->when($user->cant('viewAny', Url::class), function ($query) use ($user) {
+            return $query->where('user_id', $user->id);
+        });
 
-        if ($search) {
-            $query->where(function (Builder $query) use ($search) {
-                $query->where('path', 'LIKE', "%{$search}%")
-                    ->orWhere('long_url', 'LIKE', "%{$search}%")
-                    ->orWhereHas('user', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', "%{$search}%")
-                            ->orWhere('email', 'LIKE', "%{$search}%");
-                    });
+        $query->when($userId, function ($query) use ($userId) {
+            return $query->where('user_id', $userId);
+        });
+
+        $query->when($search, function ($query) use ($search) {
+            return $query->where(function (Builder $query) use ($search) {
+                return $query->where('path', 'LIKE', "%{$search}%")
+                    ->orWhere('long_url', 'LIKE', "%{$search}%");
             });
-        }
+        });
 
-        if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
+        $query->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            return $query->whereBetween('created_at', [$startDate, $endDate]);
+        });
 
-        if (isset($active)) {
-            $query->where('active', $active);
-        }
+        $query->when(isset($active), function ($query) use ($active) {
+            return $query->where('active', $active);
+        });
 
         return $query->orderBy($sortBy, $sortDirection)->with('user')->paginate($limit);
     }
@@ -58,7 +59,9 @@ class UrlService
         $url->long_url = $longUrl;
         $url->user_id = $user ? $user->id : null;
 
-        if ($path && ($user || config('tinre.guest_form_custom_path'))) {
+        $path = $user || config('tinre.guest_form_custom_path') ? $path : null;
+
+        if ($path) {
             $this->validatePath($path);
 
             $url->path = $path;
