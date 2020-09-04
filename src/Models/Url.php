@@ -18,6 +18,15 @@ class Url extends Model
      */
     protected $fillable = ['path', 'full_url', 'user_id'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+    ];
+
     public function user()
     {
         return $this->belongsTo('Devpri\Tinre\Models\User');

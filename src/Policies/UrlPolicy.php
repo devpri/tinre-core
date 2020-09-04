@@ -21,11 +21,15 @@ class UrlPolicy
 
     public function view(User $user, Url $url): bool
     {
-        if ($user->id === (int) $url->user_id) {
+        if ($user->hasPermissionTo('url:view:any')) {
             return true;
         }
 
-        if ($user->hasPermissionTo('url:view:any')) {
+        if (! $user->hasPermissionTo('url:view')) {
+            return true;
+        }
+
+        if ($user->id === $url->user_id) {
             return true;
         }
 
@@ -34,16 +38,24 @@ class UrlPolicy
 
     public function create(User $user): bool
     {
-        return true;
+        if ($user->hasPermissionTo('url:create')) {
+            return true;
+        }
+
+        return false;
     }
 
     public function update(User $user, Url $url): bool
     {
-        if ($user->id === (int) $url->user_id) {
+        if ($user->hasPermissionTo('url:update:any')) {
             return true;
         }
 
-        if ($user->hasPermissionTo('url:update:any')) {
+        if (! $user->hasPermissionTo('url:update')) {
+            return true;
+        }
+
+        if ($user->id === $url->user_id) {
             return true;
         }
 
@@ -52,11 +64,15 @@ class UrlPolicy
 
     public function delete(User $user, Url $url): bool
     {
-        if ($user->id === (int) $url->user_id) {
+        if ($user->hasPermissionTo('url:delete:any')) {
             return true;
         }
 
-        if ($user->hasPermissionTo('url:delete:any')) {
+        if (! $user->hasPermissionTo('url:delete')) {
+            return true;
+        }
+
+        if ($user->id === $url->user_id) {
             return true;
         }
 

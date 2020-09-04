@@ -28,6 +28,16 @@ class UrlControllerTest extends TestCase
             ->assertJsonCount(5, 'data');
     }
 
+    public function test_cant_get_urls()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $accessToken = $user->createToken('test', null);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+
+        $this->json('GET', '/api/v1/urls')
+            ->assertStatus(401);
+    }
+
     public function test_user_can_get_own_url()
     {
         $user = factory(User::class)->states('user')->create();
@@ -99,7 +109,7 @@ class UrlControllerTest extends TestCase
 
     public function test_user_can_create_url()
     {
-        $user = factory(User::class)->states('editor')->create();
+        $user = factory(User::class)->states('user')->create();
         $accessToken = $user->createToken('test', ['url:create']);
         $this->actingAs($user->withAccessToken($accessToken), 'api');
 
@@ -115,6 +125,20 @@ class UrlControllerTest extends TestCase
             ->assertJsonFragment([
                 'user_id' => $user->id,
             ]);
+    }
+
+    public function test_user_without_permission_cant_create_url()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $accessToken = $user->createToken('test', []);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+
+        $data = [
+            'long_url' => 'https://google.com',
+        ];
+
+        $this->json('POST', '/api/v1/urls', $data)
+            ->assertStatus(401);
     }
 
     public function test_user_can_update_own_url()

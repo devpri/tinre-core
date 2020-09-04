@@ -57,7 +57,7 @@ class UrlController extends Controller
     {
         $user = $request->user();
 
-        if ($user && $user->cant('create', Url::class)) {
+        if ($user->cant('create', Url::class)) {
             abort(401);
         }
 

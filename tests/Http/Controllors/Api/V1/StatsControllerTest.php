@@ -39,6 +39,24 @@ class StatsControllerTest extends TestCase
             ->assertJsonFragment(['value' => '5']);
     }
 
+    public function test_user_without_permission_cant_get_clicks()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $accessToken = $user->createToken('test', ['url:view']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+
+        $url = factory(Url::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $now = Carbon::now();
+
+        $this->json('GET', "/api/v1/stats/{$url->id}/clicks", [
+            'start_date' => $now->copy()->subDay(),
+            'end_date' => $now->copy()->addDay(),
+        ])->assertStatus(401);
+    }
+
     public function test_user_cant_get_other_user_url_clicks()
     {
         $user = factory(User::class)->states('user')->create();
@@ -51,7 +69,7 @@ class StatsControllerTest extends TestCase
             'user_id' => $secondUser->id,
         ]);
 
-        $this->json('GET', "/web/stats/{$url->id}/clicks", [
+        $this->json('GET', "/api/v1/stats/{$url->id}/clicks", [
             'start_date' => Carbon::now()->subDay(),
             'end_date' => Carbon::now()->addDay(),
         ])->assertStatus(401);
@@ -148,6 +166,24 @@ class StatsControllerTest extends TestCase
             ->assertJsonFragment(['label' => $clicks->first()->country]);
     }
 
+    public function test_user_without_permission_cant_get_countries()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $accessToken = $user->createToken('test', ['url:view']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+
+        $url = factory(Url::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $now = Carbon::now();
+
+        $this->json('GET', "/api/v1/stats/{$url->id}/country", [
+            'start_date' => $now->copy()->subDay(),
+            'end_date' => $now->copy()->addDay(),
+        ])->assertStatus(401);
+    }
+
     public function test_user_cant_get_other_user_url_countries()
     {
         $user = factory(User::class)->states('user')->create();
@@ -190,7 +226,7 @@ class StatsControllerTest extends TestCase
             'created_at' => $now->copy()->subDays(10),
         ]);
 
-        $this->json('GET', "/web/stats/{$url->id}/country", [
+        $this->json('GET', "/api/v1/stats/{$url->id}/country", [
             'start_date' => $now->copy()->subDay(),
             'end_date' => $now->copy()->addDay(),
         ])->assertStatus(200)
