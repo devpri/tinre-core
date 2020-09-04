@@ -28,7 +28,7 @@ class UserPolicy
         if (! $user->hasPermissionTo('user:view')) {
             return false;
         }
-        
+
         if ($user->id === $userModel->id) {
             return true;
         }
