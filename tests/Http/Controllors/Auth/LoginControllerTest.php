@@ -17,7 +17,7 @@ class LoginControllerTest extends TestCase
     {
         $user = factory(User::class)->states('user')->create();
         $this->actingAs($user);
-        
+
         $this->get('/dashboard/login')
             ->assertStatus(302)
             ->assertRedirect('dashboard');
