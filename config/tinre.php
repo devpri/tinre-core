@@ -91,6 +91,8 @@ return [
         'url:view:any',
         'url:update:any',
         'url:delete:any',
+        'user:view',
+        'user:view:any',
         'stats:view',
     ],
 

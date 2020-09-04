@@ -26,7 +26,7 @@ class UrlPolicy
         }
 
         if (! $user->hasPermissionTo('url:view')) {
-            return true;
+            return false;
         }
 
         if ($user->id === $url->user_id) {

@@ -42,13 +42,18 @@ class UserControllerTest extends TestCase
             ->assertJsonCount(1, 'data');
     }
 
-    public function test_user_can_get_user()
+    public function test_user_can_get_own_user()
     {
         $user = factory(User::class)->states('user')->create();
         $this->actingAs($user);
 
         $this->json('GET', "/web/users/{$user->id}")
-            ->assertStatus(401);
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'email' => $user->email,
+                ],
+            ]);
     }
 
     public function test_admin_can_get_user()

@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api'])->group(function () {
+    Route::get('users', 'UserController@index');
+    Route::get('users/me', 'LoggedUserController@show');
+    Route::get('users/{id}', 'UserController@show');
+
     Route::get('urls', 'UrlController@index');
     Route::post('urls', 'UrlController@create');
     Route::get('urls/{path}', 'UrlController@show');
