@@ -57,22 +57,18 @@ class StatsService
 
         $diff = $startDate->diffInDays($endDate);
 
-        $dateFormat = '%Y-%m-%d';
-        $pgsqlDateFormat = 'YYYY-MM-DD';
-
         if ($diff === 0) {
             $dateFormat = '%Y-%m-%d %H:00';
             $pgsqlDateFormat = 'YYYY-MM-DD HH24:00';
-        }
-
-        if ($diff > 90) {
-            $dateFormat = '%Y-%m';
-            $pgsqlDateFormat = 'YYYY-MM';
-        }
-
-        if ($diff > 1092) {
+        } elseif ($diff > 1092) {
             $dateFormat = '%Y';
             $pgsqlDateFormat = 'YYYY';
+        } elseif ($diff > 90) {
+            $dateFormat = '%Y-%m';
+            $pgsqlDateFormat = 'YYYY-MM';
+        } else {
+            $dateFormat = '%Y-%m-%d';
+            $pgsqlDateFormat = 'YYYY-MM-DD';
         }
 
         switch ($this->driver) {
