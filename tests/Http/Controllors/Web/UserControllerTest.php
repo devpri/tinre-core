@@ -70,7 +70,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->states('user')->create();
         $this->actingAs($user);
 
-        $this->json('POST', "/web/users", [
+        $this->json('POST', '/web/users', [
             'active' => 1,
             'name' => 'test',
             'email' => 'test#test.com',
@@ -85,7 +85,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->states('administrator')->create();
         $this->actingAs($user);
 
-        $this->json('POST', "/web/users", [
+        $this->json('POST', '/web/users', [
             'active' => 1,
             'name' => 'test',
             'email' => 'test@test.com',
