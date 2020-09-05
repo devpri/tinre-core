@@ -41,7 +41,10 @@ class UserControllerTest extends TestCase
 
         $this->json('GET', '/api/v1/users')
             ->assertStatus(200)
-            ->assertJsonCount(1, 'data');
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'email' => $user->email,
+            ]);
     }
 
     public function test_admin_can_serach_users()
@@ -50,7 +53,7 @@ class UserControllerTest extends TestCase
         $accessToken = $user->createToken('test', ['user:view:any']);
         $this->actingAs($user->withAccessToken($accessToken), 'api');
 
-        factory(User::class, 10)->states('administrator')->create();
+        factory(User::class, 10)->states('user')->create();
 
         $this->json('GET', "/api/v1/users/{$user->id}", [
             'search' => $user->email,
@@ -61,6 +64,18 @@ class UserControllerTest extends TestCase
                     'email' => $user->email,
                 ],
             ]);
+    }
+
+    public function test_cant_get_user()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $accessToken = $user->createToken('test', ['user:view']);
+        $this->actingAs($user->withAccessToken($accessToken), 'api');
+
+        $secondUser = factory(User::class)->states('user')->create();
+
+        $this->json('GET', "/api/v1/users/{$secondUser->id}")
+            ->assertStatus(401);
     }
 
     public function test_user_can_get_own_user()

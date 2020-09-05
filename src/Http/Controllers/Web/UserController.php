@@ -23,12 +23,12 @@ class UserController extends Controller
 
         $query = User::query();
 
-        if ($search) {
-            $query->where(function (Builder $query) use ($search) {
-                $query->where('name', 'LIKE', "%{$search}%")
+        $query->when($search, function ($query) use ($search) {
+            return $query->where(function (Builder $query) use ($search) {
+                return $query->where('name', 'LIKE', "%{$search}%")
                     ->orWhere('email', 'LIKE', "%{$search}%");
             });
-        }
+        });
 
         $users = $query->orderBy('created_at', 'DESC')->paginate(30);
 

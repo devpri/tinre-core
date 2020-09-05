@@ -39,7 +39,38 @@ class UserControllerTest extends TestCase
 
         $this->json('GET', '/web/users')
             ->assertStatus(200)
-            ->assertJsonCount(1, 'data');
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'email' => $user->email,
+            ]);
+    }
+
+    public function test_admin_can_search_users()
+    {
+        $user = factory(User::class)->states('administrator')->create();
+        $this->actingAs($user);
+
+        $secondUser = factory(User::class)->states('user')->create();
+
+        $this->json('GET', '/web/users', [
+            'search' => $secondUser->email,
+        ])
+            ->assertStatus(200)
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'email' => $secondUser->email,
+            ]);
+    }
+
+    public function test_cant_get_user()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $this->actingAs($user);
+
+        $secondUser = factory(User::class)->states('user')->create();
+
+        $this->json('GET', "/web/users/{$secondUser->id}")
+            ->assertStatus(401);
     }
 
     public function test_user_can_get_own_user()

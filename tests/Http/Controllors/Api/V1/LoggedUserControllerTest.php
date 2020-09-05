@@ -13,7 +13,7 @@ class LoggedUserControllerTest extends TestCase
             ->assertStatus(401);
     }
 
-    public function tes_can_get_user()
+    public function test_can_get_user()
     {
         $user = factory(User::class)->states('user')->create();
         $accessToken = $user->createToken('test', ['user:view']);
