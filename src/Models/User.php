@@ -2,6 +2,7 @@
 
 namespace Devpri\Tinre\Models;
 
+use Devpri\Tinre\Notifications\EmailVerificationNotification;
 use Devpri\Tinre\Notifications\ResetPasswordNotification;
 use Devpri\Tinre\Traits\AuthorizedActions;
 use Devpri\Tinre\Traits\HasApiTokens;
@@ -52,6 +53,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new EmailVerificationNotification());
     }
 
     public function urls()

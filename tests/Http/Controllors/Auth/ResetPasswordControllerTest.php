@@ -38,4 +38,16 @@ class ResetPasswordControllerTest extends TestCase
             }
         );
     }
+
+    public function test_cant_reset_password_with_wrong_email()
+    {
+        Notification::fake();
+
+        factory(User::class)->states('user')->create();
+
+        $this->post('dashboard/password/email', ['email' => 'wrong@email.test'])
+            ->assertStatus(302);
+
+        Notification::assertNothingSent();
+    }
 }

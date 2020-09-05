@@ -32,6 +32,22 @@ class RedirectControllerTest extends TestCase
         $this->assertTrue($url->clicks->count() === 1);
     }
 
+    public function test_dont_count_bots()
+    {
+        $url = factory(Url::class)->create();
+
+        $this->get($url->path, [
+            'HTTP_USER-AGENT' => 'Crawler',
+        ])
+            ->assertStatus(302)
+            ->assertRedirect($url->long_url);
+
+        $updatedUrl = Url::where('id', $url->id)->first();
+
+        $this->assertTrue((int) $updatedUrl->total_clicks === 0);
+        $this->assertTrue($url->clicks->count() === 0);
+    }
+
     /**
      * @environment-setup change_redirect_type
      */
