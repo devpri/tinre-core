@@ -22,7 +22,7 @@ class VerificationControllerTest extends TestCase
         ]);
 
         $this->actingAs($user);
-        
+
         $this->get('dashboard/email/verify')
             ->assertStatus(200);
     }
@@ -32,7 +32,7 @@ class VerificationControllerTest extends TestCase
         $user = factory(User::class)->states('user')->create();
 
         $this->actingAs($user);
-        
+
         $this->get('dashboard/email/verify')
             ->assertStatus(302);
     }
@@ -53,7 +53,6 @@ class VerificationControllerTest extends TestCase
         Notification::assertSentTo(
             $user,
             function (EmailVerificationNotification $notification, $channels) use ($user) {
-                
                 $this->get($notification->toMail($user)->actionUrl)
                     ->assertStatus(302)
                     ->assertRedirect('dashboard');
