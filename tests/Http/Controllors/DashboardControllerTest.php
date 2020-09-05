@@ -7,7 +7,7 @@ use Devpri\Tinre\Tests\TestCase;
 
 class DashboardControllerTest extends TestCase
 {
-    protected function change_dashboard_path($app) 
+    protected function change_dashboard_path($app)
     {
         $app->config->set('tinre.dashboard_path', '/dash');
     }
@@ -30,8 +30,8 @@ class DashboardControllerTest extends TestCase
     }
 
     /**
-    * @environment-setup change_dashboard_path
-    */
+     * @environment-setup change_dashboard_path
+     */
     public function test_can_access_custom_dashboard_page()
     {
         $user = factory(User::class)->states('user')->create();
