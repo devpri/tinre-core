@@ -7,7 +7,7 @@ use Devpri\Tinre\Tests\TestCase;
 
 class PreviewControllerTest extends TestCase
 {
-    protected function disable_url_preview($app) 
+    protected function disable_url_preview($app)
     {
         $app->config->set('tinre.url_preview', false);
     }
@@ -29,8 +29,8 @@ class PreviewControllerTest extends TestCase
     }
 
     /**
-    * @environment-setup disable_url_preview
-    */
+     * @environment-setup disable_url_preview
+     */
     public function test_redirect_to_home_when_url_preview_is_disabled()
     {
         $url = factory(Url::class)->create();

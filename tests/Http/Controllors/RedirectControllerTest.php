@@ -7,7 +7,7 @@ use Devpri\Tinre\Tests\TestCase;
 
 class RedirectControllerTest extends TestCase
 {
-    protected function change_redirect_type($app) 
+    protected function change_redirect_type($app)
     {
         $app->config->set('tinre.redirect_type', 301);
     }
@@ -33,8 +33,8 @@ class RedirectControllerTest extends TestCase
     }
 
     /**
-    * @environment-setup change_redirect_type
-    */
+     * @environment-setup change_redirect_type
+     */
     public function test_is_redirected_to_site_301()
     {
         $url = factory(Url::class)->create();
