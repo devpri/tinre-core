@@ -33,6 +33,11 @@ Vue.prototype.$config = window.config
 new Vue({
   el: '#app',
   router,
+
+  data: () => ({
+    showSidebar: false,
+  }),
+
   mounted() {
     this.$loading = this.$refs.loading
   },
