@@ -146,6 +146,20 @@ class UrlServiceTest extends TestCase
         $this->assertCount(1, $urls);
     }
 
+    public function test_can_filter_urls_by_user_id()
+    {
+        $user = factory(User::class)->states('user')->create();
+        $secondUser = factory(User::class)->states('user')->create();
+
+        factory(Url::class)->create(['user_id' => $user->id, 'path' => 'test10001']);
+        factory(Url::class, 5)->create(['user_id' => $secondUser->id]);
+
+        $urls = $this->urlService->index(['user_id' => $user->id], $user);
+
+        $this->assertCount(1, $urls);
+        $this->assertTrue($urls->first()->path === 'test10001');
+    }
+
     public function test_can_limit_urls()
     {
         $user = factory(User::class)->states('user')->create();
