@@ -117,4 +117,6 @@ return [
     'url_preview' => true,
 
     'url_preview_suffix' => '+',
+
+    'ban_register' => env('BAN_REGISTER') || false,
 ];

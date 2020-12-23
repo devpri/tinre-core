@@ -1,6 +1,17 @@
 @extends('tinre::layouts.auth')
 
 @section('content')
+
+@if (config('tinre.ban_register'))
+
+<div class="xl:w-1/3 sm:w-full md:w-1/2 bg-white rounded-md mx-auto my-2">
+  <div class="p-4">
+    <h3 class="text-center mb-3">Administrator disallows registration</h3>
+  </div>
+</div>
+
+@else
+
 <div class="xl:w-1/3 sm:w-full md:w-1/2 bg-white rounded-md mx-auto my-2">
     <div class="p-4">
         <h3 class="text-center mb-3">{{ __('Create an Account') }}</h3>
@@ -53,4 +64,5 @@
         </form>
     </div>
 </div>
+@endif
 @endsection

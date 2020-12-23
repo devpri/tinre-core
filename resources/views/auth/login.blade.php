@@ -33,7 +33,7 @@
                     {{ __('Login') }}
                 </button>
                             
-                @if (Route::has('register'))
+                @if (Route::has('register') && ! config('tinre.ban_register'))
                     <div class="block mt-4 text-center">
                         <a class="btn btn-secondary block w-full" href="{{ route('register') }}">
                             {{ __('Create an Account') }}
